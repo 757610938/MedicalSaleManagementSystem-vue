@@ -9,7 +9,7 @@
         <div style="margin: 10px;"></div>
         <el-form ref="loginFormRef" :model="loginForm" :label-position="labelPosition" :rules="loginFromRules" label-width="10px">
           <el-form-item  prop="id">
-            <el-input v-model="loginForm.username" prefix-icon="iconfont icon-user" ></el-input>
+            <el-input v-model="loginForm.name" prefix-icon="iconfont icon-user" ></el-input>
           </el-form-item>
           <el-form-item  prop="pwd">
             <el-input type="password" v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" ></el-input>
@@ -34,11 +34,11 @@ export default {
     return {
       labelPosition: 'right',
       loginForm: {
-        username: 'admin',
+        name: 'admin',
         password: '123456'
       },
       loginFromRules: {
-        username: [
+        name: [
           { required: true, message: '请输入ID', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 3 到 10 之间', trigger: 'blur' }
         ],
@@ -51,17 +51,23 @@ export default {
   },
   methods: {
     resetloginForm () {
+      console.log(this)
       this.$refs.loginFormRef.resetFields()
     },
     login () {
+      this.$http.post('apis/employee/checkLogin', this.loginForm)
+      this.$message.success('登录成功')
+      /**
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.post('login', this.loginForm)
+        const { data: res } = await this.$http.post('employee/checkLogin', this.loginForm)
         if (res.meta.status !== 200) return this.$message.error('登录失败')
         this.$message.success('登录成功')
         window.sessionStorage.setItem('token', res.data.token)
         this.$router.push('/home')
       })
+      **/
+      console.log(this)
     }
   }
 }
