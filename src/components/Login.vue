@@ -57,6 +57,7 @@ export default {
     login () {
       this.$http.post('apis/employee/checkLogin', this.loginForm)
       this.$message.success('登录成功')
+      this.$router.push('/home')
       /**
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
