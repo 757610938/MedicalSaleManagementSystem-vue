@@ -51,24 +51,31 @@ export default {
   },
   methods: {
     resetloginForm () {
-      console.log(this)
+      // console.log(this)
       this.$refs.loginFormRef.resetFields()
     },
     login () {
-      this.$http.post('apis/employee/checkLogin', this.loginForm)
-      this.$message.success('登录成功')
-      this.$router.push('/home')
-      /**
-      this.$refs.loginFormRef.validate(async valid => {
-        if (!valid) return
-        const { data: res } = await this.$http.post('employee/checkLogin', this.loginForm)
-        if (res.meta.status !== 200) return this.$message.error('登录失败')
-        this.$message.success('登录成功')
-        window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/home')
-      })
-      **/
-      console.log(this)
+      this.$http.post('/apis/employee/checkLogin', this.loginForm)
+        .then(function (response) {
+          if (response.data.status !== 200) return this.$message.error('账号或密码错误，请重新登录')
+          this.$message.success('登录成功')
+          window.sessionStorage.setItem('token', response.data.token)
+          this.$router.push('/home')
+        }.bind(this)).catch(function (error) {
+          console.log(error)
+        })
+      // this.$http.post('apis/employee/checkLogin', this.loginForm)
+      // console.log(this)
+      // this.$message.success('登录成功')
+      // this.$router.push('/home')
+      // this.$refs.loginFormRef.validate(async valid => {
+      //   if (!valid) return
+      //   const { data: res } = await this.$http.post('apis/employee/checkLogin', this.loginForm)
+      //   if (res.meta.status !== 200) return this.$message.error('登录失败')
+      //   this.$message.success('登录成功')
+      //   window.sessionStorage.setItem('token', res.data.token)
+      //   this.$router.push('/home')
+      // })
     }
   }
 }
