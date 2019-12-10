@@ -9,6 +9,7 @@ import Jurisdi from '../components/user/Jurisdi.vue'
 import Sorder from '../components/sale/Sorder.vue'
 import Smedicine from '../components/sale/Smedicine.vue'
 import Spush from '../components/sale/Spush.vue'
+import Info from '../components/information/information.vue'
 
 Vue.use(VueRouter)
 
@@ -33,7 +34,8 @@ const routes = [
       { path: '/jurisdi', component: Jurisdi },
       { path: '/sorder', component: Sorder },
       { path: '/smedicine', component: Smedicine },
-      { path: '/spush', component: Spush }
+      { path: '/spush', component: Spush },
+      { path: '/info', component: Info }
     ]
   }
 ]
@@ -42,11 +44,11 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login') return next()
-  const tokenStr = window.sessionStorage.getItem('token')
-  if (!tokenStr) return next('/login')
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login') return next()
+//   const tokenStr = window.sessionStorage.getItem('token')
+//   if (!tokenStr) return next('/login')
+//   next()
+// })
 
 export default router

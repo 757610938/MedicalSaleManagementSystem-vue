@@ -12,7 +12,7 @@
           :default-active="activePath"
           background-color="#8b76dd"
           text-color="#fff"
-          active-text-color="#ffd04b"
+          active-text-color="#70B0C4"
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false"
@@ -23,30 +23,21 @@
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>用户管理</span>
-          </template>
-          <!-- 二级菜单 -->
-          <el-menu-item
-              index="/users"
-              @click="saveNavState('/users')"
-            >
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item index="/users" @click="saveNavState('/users')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>用户信息管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="/order"
-              @click="saveNavState('/order')"
-            >
+            <el-menu-item index="/order" @click="saveNavState('/order')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>订单审核</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="/jurisdi"
-              @click="saveNavState('/jurisdi')"
-            >
+            <el-menu-item index="/jurisdi" @click="saveNavState('/jurisdi')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>权限管理</span>
@@ -58,30 +49,21 @@
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>销售管理</span>
-          </template>
-          <!-- 二级菜单 -->
-          <el-menu-item
-              index="sorder"
-              @click="saveNavState('sorder')"
-            >
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item index="sorder" @click="saveNavState('sorder')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>订单管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="smedicine"
-              @click="saveNavState('smedicine')"
-            >
+            <el-menu-item index="smedicine" @click="saveNavState('smedicine')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>药品信息管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="spush"
-              @click="saveNavState('spush')"
-            >
+            <el-menu-item index="spush" @click="saveNavState('spush')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>输出管理</span>
@@ -93,30 +75,21 @@
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>仓库管理</span>
-          </template>
-          <!-- 二级菜单 -->
-          <el-menu-item
-              index="3-1"
-              @click="saveNavState('3-1')"
-            >
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item index="3-1" @click="saveNavState('3-1')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>库存管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="3-2"
-              @click="saveNavState('3-2')"
-            >
+            <el-menu-item index="3-2" @click="saveNavState('3-2')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>出入库信息管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="3-3"
-              @click="saveNavState('3-3')"
-            >
+            <el-menu-item index="3-3" @click="saveNavState('3-3')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>输出管理</span>
@@ -128,30 +101,21 @@
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>采购管理</span>
-          </template>
-          <!-- 二级菜单 -->
-          <el-menu-item
-              index="4-1"
-              @click="saveNavState('4-1')"
-            >
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item index="4-1" @click="saveNavState('4-1')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>订单管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="4-2"
-              @click="saveNavState('4-2')"
-            >
+            <el-menu-item index="4-2" @click="saveNavState('4-2')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>采购记录</span>
               </template>
             </el-menu-item>
-            <el-menu-item
-              index="4-3"
-              @click="saveNavState('4-3')"
-            >
+            <el-menu-item index="4-3" @click="saveNavState('4-3')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>输出管理</span>
@@ -187,12 +151,56 @@
           <el-menu-item index="4">
             <i class="el-icon-setting"></i>
             <span slot="title">导航四</span>
-          </el-menu-item> -->
+          </el-menu-item>-->
         </el-menu>
       </el-aside>
       <el-container>
         <el-header>
-          <el-button type="info" icon="el-icon-close" circle @click="logout"></el-button>
+          <el-col :span="22">
+            <!-- <el-card shadow="always" :body-style="{ padding: '30px'}">
+              <el-dropdown :hide-on-click="true" @command="handleCommand">
+                <a href="#">
+                  <i class="el-icon-user"></i>
+                </a>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item disabled>欢迎您!</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-user" command="a">我的账号</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-setting" command="a">设置</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-close" command="c">退出</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </el-card>-->
+          </el-col>
+          <el-divider direction="vertical"></el-divider>
+          <el-col :span="2" class="col">
+            <el-dropdown :hide-on-click="true" @command="handleCommand" class="loca" fit="fill">
+              <el-avatar :src="imgUrl" @error="errorHandler">
+                <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+              </el-avatar>
+              <el-dropdown-menu slot="dropdown">
+                <!-- <el-dropdown-item disabled>欢迎您!</el-dropdown-item> -->
+                <el-dropdown-item icon="el-icon-user" command="a">我的账号信息</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-setting" command="b">设置</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-close" command="c">退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <div class="coldiv">欢迎您！{{username}}</div>
+          </el-col>
+          <el-drawer title="我来了" :visible.sync="drawer" :with-header="false">
+            <!-- <el-row>
+              <el-col :span="8" fit="fill">
+                <el-card :body-style="{ padding: '0px' }" fit="fill">
+                  <img :src="imgUrl" class="image"/>
+                  <div style="padding: 14px;">
+                    <span>{{username}}</span>
+                    <div class="bottom clearfix">
+                      <el-button type="text">上传头像</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row> -->
+          </el-drawer>
         </el-header>
         <el-main>
           <router-view></router-view>
@@ -203,11 +211,15 @@
 </template>
 
 <script>
+import imgUrl from '@/assets/images/user.png'
 export default {
-  data () {
+  data() {
     return {
       flag: true,
       flag1: false,
+      drawer: false,
+      imgUrl,
+      username: '吴梓键',
       menuList: [],
       iconsObj: {
         '125': 'iconfont icon-user',
@@ -220,29 +232,45 @@ export default {
       activePath: ''
     }
   },
-  created () {
+  created() {
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-    logout () {
+    logout() {
       window.sessionStorage.clear()
       this.$message.warning('您已退出')
       this.$router.push('/login')
     },
-    async getMenuList () {
-      const { data: res } = await this.$http.get('menus')
-      if (res.meta.status !== 200) return this.$message.console.error('获取列表失败')
-      this.menuList = res.data
-      console.log(res)
+    // async getMenuList () {
+    //   const { data: res } = await this.$http.get('menus')
+    //   if (res.meta.status !== 200) return this.$message.console.error('获取列表失败')
+    //   this.menuList = res.data
+    //   console.log(res)
+    // },
+    getMenuList() {
+      console.log('111')
     },
-    taggleCollapse () {
+    taggleCollapse() {
       this.isCollapse = !this.isCollapse
       this.flag = !this.flag
       this.flag1 = !this.flag1
     },
-    saveNavState (activePath) {
+    saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
+    },
+    handleCommand(command) {
+      // this.$message.warning('click on item ' + command)
+      if (command === 'c') {
+        this.logout()
+      } else if (command === 'b') {
+        this.drawer = true
+      } else if (command === 'a') {
+        this.$router.push('/info')
+      }
+    },
+    errorHandler() {
+      return true
     }
   }
 }
@@ -262,20 +290,21 @@ body,
 }
 .el-header {
   background-color: #ffffff;
-  color: #333;
-  text-align: center;
-  font-size: 20px;
-  line-height: 60px;
+  padding: 0px;
+  // color: #333;
+  // text-align: center;
+  // font-size: 20px;
+  // line-height: 60px;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
-  > div {
-    display: flex;
-    align-items: center;
-  }
+  // > div {
+  //   display: flex;
+  //   align-items: center;
+  // }
 }
 .el-aside {
-  background: linear-gradient(180deg, #8b76dd 40%, #727cf5 100%);
+  background: linear-gradient(180deg, #8b76dd 30%, #727cf5 100%);
   color: #333;
   line-height: 0px;
   > div {
@@ -287,5 +316,24 @@ body,
   .el-menu {
     border-right: none;
   }
+}
+.el-main {
+  background-color: #f7f9fc;
+}
+.box-card {
+  width: 480px;
+}
+.loca {
+  padding: 10px;
+}
+.col {
+  background-color: #fafbfd;
+  display: flex;
+  align-items: center;
+}
+.coldiv {
+  padding: 10px;
+  font-size: 14px;
+  color: #98a7b0;
 }
 </style>

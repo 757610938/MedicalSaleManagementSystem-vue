@@ -1,3 +1,4 @@
+import '../theme/index.css'
 import Vue from 'vue'
 import {
   Button,
@@ -25,7 +26,15 @@ import {
   TableColumn,
   Switch,
   Tooltip,
-  Pagination
+  Pagination,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Avatar,
+  PageHeader,
+  Divider,
+  Drawer,
+  Image
 }
   from 'element-ui'
 
@@ -54,4 +63,12 @@ Vue.use(TableColumn)
 Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
+Vue.use(Dropdown)
+Vue.use(DropdownItem)
+Vue.use(DropdownMenu)
+Vue.use(Avatar)
+Vue.use(PageHeader)
+Vue.use(Divider)
+Vue.use(Drawer)
+Vue.use(Image)
 Vue.prototype.$message = Message
