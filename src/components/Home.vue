@@ -331,7 +331,7 @@ body,
   // }
 }
 .el-aside {
-  background: linear-gradient(180deg, #8b76dd 30%, #727cf5 100%);
+  background: linear-gradient(180deg, #8b76dd 80%, #727cf5 100%);
   color: #333;
   line-height: 0px;
   > div {

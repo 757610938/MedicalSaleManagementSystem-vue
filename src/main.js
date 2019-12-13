@@ -12,7 +12,7 @@ Vue.prototype.$http = axios
 //   config.headers.Authorization = window.sessionStorage.getItem('token')
 //   return config
 // })
-// axios.defaults.baseURL = '/apis/'
+axios.defaults.baseURL = '/apis/'
 
 Vue.config.productionTip = false
 

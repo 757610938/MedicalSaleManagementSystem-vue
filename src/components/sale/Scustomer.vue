@@ -7,29 +7,29 @@
     </el-breadcrumb>
     <el-card>
       <el-row :gutter="20">
-        <el-col :span="7">
-          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
-            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
+        <el-col :span="8">
+          <el-input placeholder="请输入内容" v-model="queryInfo.name" clearable @clear="getCustList">
+            <el-button slot="append" icon="el-icon-search" @click="getCustList"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="4"  style="position:absolute; left:85%">
           <el-button type="primary" @click="addDialogVisible = true">新增</el-button>
         </el-col>
       </el-row>
-      <el-table :data="userlist" border stripe @selection-change="handleSelectionChange">
+      <el-table :data="custlist" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
-        <el-table-column label="姓名" prop="email" width="150"></el-table-column>
-        <el-table-column label="电话" prop="mobile" width="200"></el-table-column>
-        <el-table-column label="邮编" prop="role_name" width="150"></el-table-column>
-        <el-table-column label="传真" prop="role_name" width="200"></el-table-column>
-        <el-table-column label="种类" prop="username" width="150"></el-table-column>
-        <el-table-column label="地址" width="400" prop="username"></el-table-column>
-        <el-table-column label="收货地址" width="400" prop="username"></el-table-column>
-        <el-table-column label="开户行" prop="username" width="500"></el-table-column>
-        <el-table-column label="银行账号" prop="username" width="500"></el-table-column>
-        <el-table-column label="联系人名字" width="150" prop="username"></el-table-column>
-        <el-table-column label="联系人电话" prop="username" width="150"></el-table-column>
+        <el-table-column label="姓名" prop="custName" width="150"></el-table-column>
+        <el-table-column label="电话" prop="custTel" width="200"></el-table-column>
+        <el-table-column label="邮编" prop="custZipCode" width="150"></el-table-column>
+        <el-table-column label="传真" prop="custFax" width="200"></el-table-column>
+        <el-table-column label="种类" prop="custCategory" width="150"></el-table-column>
+        <el-table-column label="地址" width="400" prop="custAddress"></el-table-column>
+        <el-table-column label="收货地址" width="400" prop="custShippingAddress"></el-table-column>
+        <el-table-column label="开户行" prop="custOpeningBank" width="500"></el-table-column>
+        <el-table-column label="银行账号" prop="custBankNumber" width="500"></el-table-column>
+        <el-table-column label="联系人名字" width="150" prop="custContactsName"></el-table-column>
+        <el-table-column label="联系人电话" prop="custContactsTel" width="150"></el-table-column>
         <!-- <el-table-column label="创建时间" prop="time" width="150">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
@@ -43,7 +43,7 @@
                 type="primary"
                 icon="el-icon-edit"
                 size="mini"
-                @click="showCustDialog(scope.row.username)"
+                @click="showCustDialog(scope.row.custId)"
               ></el-button>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
@@ -51,7 +51,7 @@
                 type="primary"
                 icon="el-icon-delete"
                 size="mini"
-                @click="removeById(scope.row.username)"
+                @click="removeById(scope.row.custId)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -60,14 +60,14 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum"
+        :current-page="queryInfo.pageNum"
         :page-sizes="[1, 2, 5, 10]"
-        :page-size="queryInfo.pagesize"
+        :page-size="queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
     </el-card>
-    <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="25%" @close="addDialogClose">
+    <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
         <el-form-item label="姓名" prop="custName">
           <el-input v-model="addForm.custName"></el-input>
@@ -111,43 +111,43 @@
     <el-dialog
       title="修改信息"
       :visible.sync="custDialogVisible"
-      width="25%"
+      width="45%"
       @close="custDialogClose"
     >
       <el-form :model="custFrom" :rules="custFromRules" ref="custFromRef" label-width="100px">
-        <el-form-item label="姓名" prop="custName">
-          <el-input v-model="custFrom.custName"></el-input>
+        <el-form-item label="姓名">
+          <el-input v-model="custFrom.custName">{{ custFrom.custName }}</el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="custTel">
-          <el-input v-model="custFrom.custTel"></el-input>
+        <el-form-item label="电话">
+          <el-input v-model="custFrom.custTel">{{ custFrom.custTel }}</el-input>
         </el-form-item>
-        <el-form-item label="邮编" prop="custZipCode">
-          <el-input v-model="custFrom.custZipCode"></el-input>
-        </el-form-item>
-        <el-form-item label="传真" prop="custFax">
-          <el-input v-model="custFrom.custFax"></el-input>
-        </el-form-item>
-        <el-form-item label="种类" prop="custCategory">
-          <el-input v-model="custFrom.custCategory"></el-input>
-        </el-form-item>
-        <el-form-item label="地址" prop="custAddress">
-          <el-input v-model="custFrom.custAddress"></el-input>
-        </el-form-item>
-        <el-form-item label="收货地址" prop="custShiooingAddres">
-          <el-input v-model="custFrom.custShiooingAddres"></el-input>
-        </el-form-item>
-        <el-form-item label="开户行" prop="custOpeningBank">
-          <el-input v-model="custFrom.custOpeningBank"></el-input>
-        </el-form-item>
-        <el-form-item label="银行账号" prop="custBankNumber">
-          <el-input v-model="custFrom.custBankNumber"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人名字" prop="custContactsName">
-          <el-input v-model="custFrom.custContactsName"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人电话" prop="custContactsTel">
-          <el-input v-model="custFrom.custContactsTel"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="邮编" prop="custZipCode">-->
+<!--          <el-input v-model="custFrom.custZipCode"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="传真" prop="custFax">-->
+<!--          <el-input v-model="custFrom.custFax"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="种类" prop="custCategory">-->
+<!--          <el-input v-model="custFrom.custCategory"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="地址" prop="custAddress">-->
+<!--          <el-input v-model="custFrom.custAddress"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="收货地址" prop="custShiooingAddres">-->
+<!--          <el-input v-model="custFrom.custShiooingAddres"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="开户行" prop="custOpeningBank">-->
+<!--          <el-input v-model="custFrom.custOpeningBank"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="银行账号" prop="custBankNumber">-->
+<!--          <el-input v-model="custFrom.custBankNumber"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="联系人名字" prop="custContactsName">-->
+<!--          <el-input v-model="custFrom.custContactsName"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="联系人电话" prop="custContactsTel">-->
+<!--          <el-input v-model="custFrom.custContactsTel"></el-input>-->
+<!--        </el-form-item>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="custDialogVisible = false">取 消</el-button>
@@ -169,18 +169,12 @@ export default {
     }
     return {
       queryInfo: {
-        query: '',
-        pagenum: 1,
-        pagesize: 2
+        name: '',
+        pageNum: 1,
+        pageSize: 5
       },
-      userlist: [
-        { username: '111', email: '111', time: '2019-01-08' },
-        { username: '112', email: '112', time: new Date() },
-        { username: '113', email: '113', time: new Date() },
-        { username: '114', email: '114', time: new Date() },
-        { username: '115', email: '115', time: new Date() }
-      ],
-      total: 5,
+      custlist: [],
+      total: 0,
       addDialogVisible: false,
       addForm: {
         custName: '',
@@ -295,27 +289,27 @@ export default {
     }
   },
   created() {
-    // this.getUserList()
+    this.getCustList()
   },
   methods: {
-    async getUserList() {
-      //   const { data: res } = await this.$http.get('users', {
-      //     params: this.queryInfo
-      //   })
-      //   if (res.meta.status !== 200) {
-      //     return this.$massage.error('获取用户列表失败')
-      //   }
-      //   this.userlist = res.data.users
-      //   this.total = res.data.total
-      console.log('获取了列表')
+    async getCustList() {
+      this.$http.get('customers/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize + '/' + this.queryInfo.name)
+        .then(function (response) {
+          if (response.data.status !== '200') return this.$message.error(response.data.message)
+          this.custlist = response.data.data.list
+          this.total = response.data.data.total
+          this.$message.success(response.data.message)
+        }.bind(this)).catch(function (error) {
+          console.log(error)
+        })
     },
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize
-      //   this.getUserList()
+      this.queryInfo.pageSize = newSize
+      this.getCustList()
     },
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage
-      //   this.getUserList()
+      this.queryInfo.pageNum = newPage
+      this.getCustList()
     },
     addDialogClose() {
       this.$refs.addFormRef.resetFields()
@@ -338,6 +332,14 @@ export default {
       //   if (res.meta.status !== 200)
       //     return this.$message.error('获取用户信息失败')
       //   this.stockForm = res.data
+      this.$http.get('customer/' + id)
+        .then(function (response) {
+          if (response.data.status !== '200') return this.$message.error(response.data.message)
+          this.custFrom = response.data.customerVO
+          console.log(id)
+        }.bind(this)).catch(function (error) {
+          console.log(error)
+        })
       console.log(id)
       this.custDialogVisible = true
     },
@@ -375,7 +377,15 @@ export default {
       // //判断如果删除失败，就做提示
       // if (res.meta.status !== 200) return this.$message.error('删除用户失败')
       // this.getUserList()
-      this.$message.success('删除成功！')
+      this.$http.delete('customer/' + id)
+        .then(function (response) {
+          if (response.data.status !== '200') return this.$message.error(response.data.message)
+          this.$message.success(response.data.message)
+          this.getCustList()
+          console.log(id)
+        }.bind(this)).catch(function (error) {
+          console.log(error)
+        })
       console.log(confirmResult)
     },
     handleSelectionChange(val) {
