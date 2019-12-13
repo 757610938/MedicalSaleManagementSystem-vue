@@ -87,8 +87,8 @@
         <el-form-item label="地址" prop="custAddress">
           <el-input v-model="addForm.custAddress"></el-input>
         </el-form-item>
-        <el-form-item label="收货地址" prop="custShiooingAddres">
-          <el-input v-model="addForm.custShiooingAddres"></el-input>
+        <el-form-item label="收货地址" prop="custShippingAddress">
+          <el-input v-model="addForm.custShippingAddress"></el-input>
         </el-form-item>
         <el-form-item label="开户行" prop="custOpeningBank">
           <el-input v-model="addForm.custOpeningBank"></el-input>
@@ -105,7 +105,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addStock">确 定</el-button>
+        <el-button type="primary" @click="addCust">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -121,33 +121,33 @@
         <el-form-item label="电话" prop="custTel">
           <el-input v-model="custFrom.custTel"></el-input>
         </el-form-item>
-<!--        <el-form-item label="邮编" prop="custZipCode">-->
-<!--          <el-input v-model="custFrom.custZipCode"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="传真" prop="custFax">-->
-<!--          <el-input v-model="custFrom.custFax"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="种类" prop="custCategory">-->
-<!--          <el-input v-model="custFrom.custCategory"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="地址" prop="custAddress">-->
-<!--          <el-input v-model="custFrom.custAddress"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="收货地址" prop="custShiooingAddres">-->
-<!--          <el-input v-model="custFrom.custShiooingAddres"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="开户行" prop="custOpeningBank">-->
-<!--          <el-input v-model="custFrom.custOpeningBank"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="银行账号" prop="custBankNumber">-->
-<!--          <el-input v-model="custFrom.custBankNumber"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="联系人名字" prop="custContactsName">-->
-<!--          <el-input v-model="custFrom.custContactsName"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="联系人电话" prop="custContactsTel">-->
-<!--          <el-input v-model="custFrom.custContactsTel"></el-input>-->
-<!--        </el-form-item>-->
+        <el-form-item label="邮编" prop="custZipCode">
+          <el-input v-model="custFrom.custZipCode"></el-input>
+        </el-form-item>
+        <el-form-item label="传真" prop="custFax">
+          <el-input v-model="custFrom.custFax"></el-input>
+        </el-form-item>
+        <el-form-item label="种类" prop="custCategory">
+          <el-input v-model="custFrom.custCategory"></el-input>
+        </el-form-item>
+        <el-form-item label="地址" prop="custAddress">
+          <el-input v-model="custFrom.custAddress"></el-input>
+        </el-form-item>
+        <el-form-item label="收货地址" prop="custShippingAddress">
+          <el-input v-model="custFrom.custShippingAddress"></el-input>
+        </el-form-item>
+        <el-form-item label="开户行" prop="custOpeningBank">
+          <el-input v-model="custFrom.custOpeningBank"></el-input>
+        </el-form-item>
+        <el-form-item label="银行账号" prop="custBankNumber">
+          <el-input v-model="custFrom.custBankNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人名字" prop="custContactsName">
+          <el-input v-model="custFrom.custContactsName"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人电话" prop="custContactsTel">
+          <el-input v-model="custFrom.custContactsTel"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="custDialogVisible = false">取 消</el-button>
@@ -171,7 +171,7 @@ export default {
       queryInfo: {
         name: '',
         pageNum: 1,
-        pageSize: 5
+        pageSize: 10
       },
       custlist: [],
       total: 0,
@@ -183,7 +183,7 @@ export default {
         custFax: '',
         custCategory: '',
         custAddress: '',
-        custShiooingAddres: '',
+        custShippingAddress: '',
         custOpeningBank: '',
         custBankNumber: '',
         custContactsName: '',
@@ -235,19 +235,7 @@ export default {
         // ]
       },
       custDialogVisible: false,
-      custFrom: {
-        custName: '',
-        custTel: '',
-        custZipCode: '',
-        custFax: '',
-        custCategory: '',
-        custAddress: '',
-        custShiooingAddres: '',
-        custOpeningBank: '',
-        custBankNumber: '',
-        custContactsName: '',
-        custContactsTel: ''
-      },
+      custFrom: {},
       custFromRules: {
         custName: [
           { required: true, message: '请输入序号', trigger: 'blur' },
@@ -298,7 +286,6 @@ export default {
           if (response.data.status !== '200') return this.$message.error(response.data.message)
           this.custlist = response.data.data.list
           this.total = response.data.data.total
-          this.$message.success(response.data.message)
         }.bind(this)).catch(function (error) {
           console.log(error)
         })
@@ -312,9 +299,11 @@ export default {
       this.getCustList()
     },
     addDialogClose() {
-      this.$refs.addFormRef.resetFields()
+      setTimeout(() => {
+        this.$refs.addFormRef.resetFields()
+      }, 500)
     },
-    addStock() {
+    addCust() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写真缺的用户信息')
         // //发送请求完成添加用户的操作
@@ -322,9 +311,15 @@ export default {
         // //判断如果添加失败，就做提示
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
-        this.$message.success('添加用户成功')
+        this.$http.post('customer', this.addForm)
+          .then(function (response) {
+            if (response.data.status !== '200') return this.$message.error(response.data.message)
+            this.$message.success('添加用户成功')
+          }.bind(this)).catch(function (error) {
+            console.log(error)
+          })
         this.addDialogVisible = false
-        this.getUserList()
+        this.getCustList()
       })
     },
     async showCustDialog(id) {
@@ -335,18 +330,20 @@ export default {
       this.$http.get('customer/' + id)
         .then(function (response) {
           if (response.data.status !== '200') return this.$message.error(response.data.message)
-          this.custFrom = response.data.customerVO
+          this.custFrom = response.data.data.customerVO
           console.log(id)
         }.bind(this)).catch(function (error) {
           console.log(error)
         })
-      console.log(id)
       this.custDialogVisible = true
     },
     custDialogClose() {
-      this.$refs.custFromRef.resetFields()
+      setTimeout(() => {
+        this.$refs.custFromRef.resetFields()
+      }, 500)
     },
     Info() {
+      const res = this.custFrom
       this.$refs.custFromRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写完整用户信息')
         // const { data: res } = await this.$http.put(
@@ -354,9 +351,17 @@ export default {
         //   this.editForm
         // )
         // if (res.meta.status !== 200) return this.$message.error('修改用户失败')
-        this.$message.success('修改信息成功')
+        this.$http.put('customer', res)
+          .then(function (response) {
+            if (response.data.status !== '200') return this.$message.error(response.data.message)
+            this.$message.success('修改信息成功')
+          }.bind(this)).catch(function (error) {
+            console.log(error)
+          })
         this.custDialogVisible = false
-        // this.getUserList()
+        setTimeout(() => {
+          this.getCustList()
+        }, 1000)
       })
     },
     async removeById(id) {
