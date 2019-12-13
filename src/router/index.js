@@ -7,9 +7,12 @@ import Users from '../components/user/Users.vue'
 import Order from '../components/user/Order.vue'
 import Jurisdi from '../components/user/Jurisdi.vue'
 import Sorder from '../components/sale/Sorder.vue'
-import Smedicine from '../components/sale/Smedicine.vue'
+import Scustomer from '../components/sale/Scustomer.vue'
 import Spush from '../components/sale/Spush.vue'
 import Info from '../components/information/information.vue'
+import Stock from '../components/ware/Stock.vue'
+import Pstock from '../components/ware/Pstock.vue'
+import Ostock from '../components/ware/Ostock.vue'
 
 Vue.use(VueRouter)
 
@@ -33,9 +36,12 @@ const routes = [
       { path: '/order', component: Order },
       { path: '/jurisdi', component: Jurisdi },
       { path: '/sorder', component: Sorder },
-      { path: '/smedicine', component: Smedicine },
+      { path: '/scustomer', component: Scustomer },
       { path: '/spush', component: Spush },
-      { path: '/info', component: Info }
+      { path: '/info', component: Info },
+      { path: '/stock', component: Stock },
+      { path: '/pstock', component: Pstock },
+      { path: '/ostock', component: Ostock }
     ]
   }
 ]

@@ -18,10 +18,14 @@
           :collapse-transition="false"
           :router="true"
         >
+          <el-menu-item index="info" @click="saveNavState('info')">
+            <i class="el-icon-s-custom"></i>
+            <span slot="title">我的账号</span>
+          </el-menu-item>
           <!-- 一级菜单 -->
-          <el-submenu index="1">
+          <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-position"></i>
               <span>用户管理</span>
             </template>
             <!-- 二级菜单 -->
@@ -45,9 +49,9 @@
             </el-menu-item>
           </el-submenu>
           <!-- 一级菜单 -->
-          <el-submenu index="2">
+          <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-position"></i>
               <span>销售管理</span>
             </template>
             <!-- 二级菜单 -->
@@ -57,10 +61,10 @@
                 <span>订单管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="smedicine" @click="saveNavState('smedicine')">
+            <el-menu-item index="scustomer" @click="saveNavState('scustomer')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>药品信息管理</span>
+                <span>客户管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="spush" @click="saveNavState('spush')">
@@ -71,57 +75,61 @@
             </el-menu-item>
           </el-submenu>
           <!-- 一级菜单 -->
-          <el-submenu index="3">
+          <el-submenu index="4">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-position"></i>
               <span>仓库管理</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="3-1" @click="saveNavState('3-1')">
+            <el-menu-item index="stock" @click="saveNavState('stock')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>库存管理</span>
+                <span>仓库信息管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="3-2" @click="saveNavState('3-2')">
+            <el-menu-item index="ostock" @click="saveNavState('ostock')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>出入库信息管理</span>
+                <span>出库管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="3-3" @click="saveNavState('3-3')">
+            <el-menu-item index="pstock" @click="saveNavState('pstock')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>输出管理</span>
+                <span>入库管理</span>
               </template>
             </el-menu-item>
           </el-submenu>
           <!-- 一级菜单 -->
-          <el-submenu index="4">
+          <el-submenu index="5">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-position"></i>
               <span>采购管理</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="4-1" @click="saveNavState('4-1')">
+            <el-menu-item index="5-1" @click="saveNavState('4-1')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>订单管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4-2" @click="saveNavState('4-2')">
+            <el-menu-item index="5-2" @click="saveNavState('4-2')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>采购记录</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4-3" @click="saveNavState('4-3')">
+            <el-menu-item index="5-3" @click="saveNavState('4-3')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>输出管理</span>
+                <span>供应商管理</span>
               </template>
             </el-menu-item>
           </el-submenu>
+          <el-menu-item index="6" @click="saveNavState('6')">
+            <i class="el-icon-position"></i>
+            <span slot="title">药品管理</span>
+          </el-menu-item>
           <!-- <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -173,8 +181,8 @@
           </el-col>
           <el-divider direction="vertical"></el-divider>
           <el-col :span="2" class="col">
-            <el-dropdown :hide-on-click="true" @command="handleCommand" class="loca" fit="fill">
-              <el-avatar :src="imgUrl" @error="errorHandler">
+            <el-dropdown :hide-on-click="true" @command="handleCommand" class="loca">
+              <el-avatar :src="imgUrl" @error="errorHandler" fit="contain">
                 <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
               </el-avatar>
               <el-dropdown-menu slot="dropdown">
@@ -199,8 +207,18 @@
                   </div>
                 </el-card>
               </el-col>
-            </el-row> -->
+            </el-row>-->
           </el-drawer>
+          <el-dialog title="确定要退出吗？" :visible.sync="centerDialogVisible" width="30%" center>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="centerDialogVisible = false">取 消</el-button>
+              <el-button
+                type="primary"
+                @click="logout"
+                v-loading.fullscreen.lock="fullscreenLoading"
+              >确 定</el-button>
+            </span>
+          </el-dialog>
         </el-header>
         <el-main>
           <router-view></router-view>
@@ -217,6 +235,8 @@ export default {
     return {
       flag: true,
       flag1: false,
+      centerDialogVisible: false,
+      fullscreenLoading: false,
       drawer: false,
       imgUrl,
       username: '吴梓键',
@@ -238,8 +258,12 @@ export default {
   methods: {
     logout() {
       window.sessionStorage.clear()
-      this.$message.warning('您已退出')
-      this.$router.push('/login')
+      this.fullscreenLoading = true
+      setTimeout(() => {
+        this.fullscreenLoading = false
+        this.$message.warning('您已退出')
+        this.$router.push('/login')
+      }, 1000)
     },
     // async getMenuList () {
     //   const { data: res } = await this.$http.get('menus')
@@ -262,10 +286,13 @@ export default {
     handleCommand(command) {
       // this.$message.warning('click on item ' + command)
       if (command === 'c') {
-        this.logout()
+        // this.logout()
+        this.centerDialogVisible = true
+        console.log(command)
       } else if (command === 'b') {
         this.drawer = true
       } else if (command === 'a') {
+        this.saveNavState('info')
         this.$router.push('/info')
       }
     },
@@ -332,7 +359,7 @@ body,
   align-items: center;
 }
 .coldiv {
-  padding: 10px;
+  padding: 5px;
   font-size: 14px;
   color: #98a7b0;
 }

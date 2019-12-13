@@ -2,6 +2,7 @@ import '../theme/index.css'
 import Vue from 'vue'
 import {
   Button,
+  ButtonGroup,
   Input,
   Form,
   FormItem,
@@ -34,11 +35,17 @@ import {
   PageHeader,
   Divider,
   Drawer,
-  Image
+  Image,
+  Calendar,
+  Popover,
+  Dialog,
+  Loading,
+  MessageBox
 }
   from 'element-ui'
 
 Vue.use(Button)
+Vue.use(ButtonGroup)
 Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
@@ -71,4 +78,9 @@ Vue.use(PageHeader)
 Vue.use(Divider)
 Vue.use(Drawer)
 Vue.use(Image)
+Vue.use(Calendar)
+Vue.use(Popover)
+Vue.use(Dialog)
+Vue.use(Loading)
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
