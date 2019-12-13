@@ -115,11 +115,11 @@
       @close="custDialogClose"
     >
       <el-form :model="custFrom" :rules="custFromRules" ref="custFromRef" label-width="100px">
-        <el-form-item label="姓名">
-          <el-input v-model="custFrom.custName">{{ custFrom.custName }}</el-input>
+        <el-form-item label="姓名" prop="custName">
+          <el-input v-model="custFrom.custName"></el-input>
         </el-form-item>
-        <el-form-item label="电话">
-          <el-input v-model="custFrom.custTel">{{ custFrom.custTel }}</el-input>
+        <el-form-item label="电话" prop="custTel">
+          <el-input v-model="custFrom.custTel"></el-input>
         </el-form-item>
 <!--        <el-form-item label="邮编" prop="custZipCode">-->
 <!--          <el-input v-model="custFrom.custZipCode"></el-input>-->
