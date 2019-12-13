@@ -164,7 +164,7 @@
       </el-aside>
       <el-container>
         <el-header>
-          <el-col :span="22">
+          <el-col :span="20">
             <!-- <el-card shadow="always" :body-style="{ padding: '30px'}">
               <el-dropdown :hide-on-click="true" @command="handleCommand">
                 <a href="#">
@@ -180,7 +180,7 @@
             </el-card>-->
           </el-col>
           <el-divider direction="vertical"></el-divider>
-          <el-col :span="2" class="col">
+          <el-col :span="4" class="col">
             <el-dropdown :hide-on-click="true" @command="handleCommand" class="loca">
               <el-avatar :src="imgUrl" @error="errorHandler" fit="contain">
                 <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
