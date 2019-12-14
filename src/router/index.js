@@ -13,6 +13,10 @@ import Info from '../components/information/information.vue'
 import Stock from '../components/ware/Stock.vue'
 import Pstock from '../components/ware/Pstock.vue'
 import Ostock from '../components/ware/Ostock.vue'
+import Porder from '../components/purchase/Porder.vue'
+import Precords from '../components/purchase/Precords.vue'
+import Psupplier from '../components/purchase/Psupplier.vue'
+import Medicine from '../components/medicine/medicine.vue'
 
 Vue.use(VueRouter)
 
@@ -41,7 +45,11 @@ const routes = [
       { path: '/info', component: Info },
       { path: '/stock', component: Stock },
       { path: '/pstock', component: Pstock },
-      { path: '/ostock', component: Ostock }
+      { path: '/ostock', component: Ostock },
+      { path: '/porder', component: Porder },
+      { path: '/precords', component: Precords },
+      { path: '/psupplier', component: Psupplier },
+      { path: '/medicine', component: Medicine }
     ]
   }
 ]

@@ -252,7 +252,9 @@ export default {
       //   this.getUserList()
     },
     addDialogClose() {
-      this.$refs.addFormRef.resetFields()
+      setTimeout(() => {
+        this.$refs.addFormRef.resetFields()
+      }, 500)
     },
     addStock() {
       this.$refs.addFormRef.validate(async valid => {
@@ -276,7 +278,9 @@ export default {
       this.stockDialogVisible = true
     },
     stockDialogClose() {
-      this.$refs.stockFromRef.resetFields()
+      setTimeout(() => {
+        this.$refs.stockFromRef.resetFields()
+      }, 500)
     },
     stockInfo() {
       this.$refs.stockFromRef.validate(async valid => {

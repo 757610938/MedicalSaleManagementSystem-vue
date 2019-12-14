@@ -107,26 +107,26 @@
               <span>采购管理</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="5-1" @click="saveNavState('4-1')">
+            <el-menu-item index="porder" @click="saveNavState('porder')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>订单管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="5-2" @click="saveNavState('4-2')">
+            <el-menu-item index="precords" @click="saveNavState('precords')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>采购记录</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="5-3" @click="saveNavState('4-3')">
+            <el-menu-item index="psupplier" @click="saveNavState('psupplier')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>供应商管理</span>
               </template>
             </el-menu-item>
           </el-submenu>
-          <el-menu-item index="6" @click="saveNavState('6')">
+          <el-menu-item index="medicine" @click="saveNavState('medicine')">
             <i class="el-icon-position"></i>
             <span slot="title">药品管理</span>
           </el-menu-item>
@@ -164,7 +164,7 @@
       </el-aside>
       <el-container>
         <el-header>
-          <el-col :span="20">
+          <el-col :span="21">
             <!-- <el-card shadow="always" :body-style="{ padding: '30px'}">
               <el-dropdown :hide-on-click="true" @command="handleCommand">
                 <a href="#">
@@ -180,7 +180,7 @@
             </el-card>-->
           </el-col>
           <el-divider direction="vertical"></el-divider>
-          <el-col :span="4" class="col">
+          <el-col :span="3" class="col">
             <el-dropdown :hide-on-click="true" @command="handleCommand" class="loca">
               <el-avatar :src="imgUrl" @error="errorHandler" fit="contain">
                 <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
@@ -331,7 +331,7 @@ body,
   // }
 }
 .el-aside {
-  background: linear-gradient(180deg, #8b76dd 80%, #727cf5 100%);
+  background: linear-gradient(180deg, #8b76dd 50%, #727cf5 150%);
   color: #333;
   line-height: 0px;
   > div {
