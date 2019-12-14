@@ -44,7 +44,7 @@
             <el-menu-item index="/jurisdi" @click="saveNavState('/jurisdi')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>权限管理</span>
+                <span>角色管理</span>
               </template>
             </el-menu-item>
           </el-submenu>

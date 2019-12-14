@@ -18,6 +18,7 @@
       <el-table :data="list" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
+        <el-table-column label="编号" prop="medicineId" width="150"></el-table-column>
         <el-table-column label="批准文号" prop="medicineApprovalNumber" width="300"></el-table-column>
         <el-table-column label="药品名" prop="medicineName" width="200"></el-table-column>
         <el-table-column label="药品英文名称" prop="medicineEnglishName" width="200"></el-table-column>

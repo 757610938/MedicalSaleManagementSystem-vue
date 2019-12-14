@@ -19,6 +19,7 @@
       <el-table :data="custlist" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
+        <el-table-column label="编号" prop="custId" width="150"></el-table-column>
         <el-table-column label="姓名" prop="custName" width="150"></el-table-column>
         <el-table-column label="电话" prop="custTel" width="200"></el-table-column>
         <el-table-column label="邮编" prop="custZipCode" width="150"></el-table-column>

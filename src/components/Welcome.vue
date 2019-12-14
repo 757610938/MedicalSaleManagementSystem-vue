@@ -1,13 +1,18 @@
 <template>
-    <div>
-        <h3>welcome</h3>
-    </div>
+  <div>
+    <el-card>welcome</el-card>
+  </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {}
+  },
+  created() {},
+  mounted() {}
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 </style>
