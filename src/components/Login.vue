@@ -55,7 +55,7 @@ export default {
       this.$refs.loginFormRef.resetFields()
     },
     login () {
-      this.$http.post('user', this.loginForm)
+      this.$http.post('user/checkLogin', this.loginForm)
         .then(function (response) {
           if (response.data.status !== '200') return this.$message.error(response.data.message)
           this.$message.success(response.data.message)
