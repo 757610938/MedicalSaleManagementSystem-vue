@@ -18,20 +18,20 @@
       <el-table :data="list" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
-        <el-table-column label="批准文号" prop="meidcineApprovalNumber" width="300"></el-table-column>
-        <el-table-column label="药品名" prop="meidcineName" width="200"></el-table-column>
-        <el-table-column label="药品英文名称" prop="meidcineEnglishName" width="200"></el-table-column>
-        <el-table-column label="剂型种类" prop="meidcineDosageformCategory" width="150"></el-table-column>
-        <el-table-column label="生产单位" prop="meidcineManufacturer" width="250"></el-table-column>
-        <el-table-column label="生产单位地址" width="500" prop="meidcineManufacturingAddress"></el-table-column>
-        <el-table-column label="规格" width="150" prop="meidcineSpecification"></el-table-column>
-        <el-table-column label="药品种类" prop="meidcineCategory" width="150"></el-table-column>
-        <el-table-column label="批准日期" prop="meidcineApprovaldate" width="200"></el-table-column>
-        <el-table-column label="原批准文号" width="300" prop="meidcineOriginalApprovalNumber"></el-table-column>
-        <el-table-column label="国产药/进口药" prop="meidcineCountry" width="150"></el-table-column>
-        <el-table-column label="进货价" prop="meidcinePurchasePrice" width="150"></el-table-column>
-        <el-table-column label="零售价" prop="meidcineRetailPrice" width="150"></el-table-column>
-        <el-table-column label="批发价" prop="meidcineWholesalePrice" width="150"></el-table-column>
+        <el-table-column label="批准文号" prop="medicineApprovalNumber" width="300"></el-table-column>
+        <el-table-column label="药品名" prop="medicineName" width="200"></el-table-column>
+        <el-table-column label="药品英文名称" prop="medicineEnglishName" width="200"></el-table-column>
+        <el-table-column label="剂型种类" prop="medicineDosageformCategory" width="150"></el-table-column>
+        <el-table-column label="生产单位" prop="medicineManufacturer" width="250"></el-table-column>
+        <el-table-column label="生产单位地址" width="500" prop="medicineManufacturingAddress"></el-table-column>
+        <el-table-column label="规格" width="150" prop="medicineSpecification"></el-table-column>
+        <el-table-column label="药品种类" prop="medicineCategory" width="150"></el-table-column>
+        <el-table-column label="批准日期" prop="medicineApprovaldate" width="200"></el-table-column>
+        <el-table-column label="原批准文号" width="300" prop="medicineOriginalApprovalNumber"></el-table-column>
+        <el-table-column label="国产药/进口药" prop="medicineCountry" width="150"></el-table-column>
+        <el-table-column label="进货价" prop="medicinePurchasePrice" width="150"></el-table-column>
+        <el-table-column label="零售价" prop="medicineRetailPrice" width="150"></el-table-column>
+        <el-table-column label="批发价" prop="medicineWholesalePrice" width="150"></el-table-column>
         <el-table-column label="药品供应商名" prop="supplierName" width="200"></el-table-column>
         <el-table-column label="药品库存量" prop="stochAmount" width="150"></el-table-column>
         <el-table-column label="药品存放仓库" prop="whseName" width="200"></el-table-column>
@@ -74,47 +74,47 @@
     </el-card>
     <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
-        <el-form-item label="批准文号" prop="meidcineApprovalNumber">
-          <el-input v-model="addForm.meidcineApprovalNumber"></el-input>
+        <el-form-item label="批准文号" prop="medicineApprovalNumber">
+          <el-input v-model="addForm.medicineApprovalNumber"></el-input>
         </el-form-item>
-        <el-form-item label="药品名" prop="meidcineName">
-          <el-input v-model="addForm.meidcineName"></el-input>
+        <el-form-item label="药品名" prop="medicineName">
+          <el-input v-model="addForm.medicineName"></el-input>
         </el-form-item>
-        <el-form-item label="药品英文名称" prop="meidcineEnglishName">
-          <el-input v-model="addForm.meidcineEnglishName"></el-input>
+        <el-form-item label="药品英文名称" prop="medicineEnglishName">
+          <el-input v-model="addForm.medicineEnglishName"></el-input>
         </el-form-item>
-        <el-form-item label="剂型种类" prop="meidcineDosageformCategory">
-          <el-input v-model="addForm.meidcineDosageformCategory"></el-input>
+        <el-form-item label="剂型种类" prop="medicineDosageformCategory">
+          <el-input v-model="addForm.medicineDosageformCategory"></el-input>
         </el-form-item>
-        <el-form-item label="生产单位" prop="meidcineManufacturer">
-          <el-input v-model="addForm.meidcineManufacturer"></el-input>
+        <el-form-item label="生产单位" prop="medicineManufacturer">
+          <el-input v-model="addForm.medicineManufacturer"></el-input>
         </el-form-item>
-        <el-form-item label="生产单位地址" prop="meidcineManufacturingAddress">
-          <el-input v-model="addForm.meidcineManufacturingAddress"></el-input>
+        <el-form-item label="生产单位地址" prop="medicineManufacturingAddress">
+          <el-input v-model="addForm.medicineManufacturingAddress"></el-input>
         </el-form-item>
-        <el-form-item label="规格" prop="meidcineSpecification">
-          <el-input v-model="addForm.meidcineSpecification"></el-input>
+        <el-form-item label="规格" prop="medicineSpecification">
+          <el-input v-model="addForm.medicineSpecification"></el-input>
         </el-form-item>
-        <el-form-item label="药品种类" prop="meidcineCategory">
-          <el-input v-model="addForm.meidcineCategory"></el-input>
+        <el-form-item label="药品种类" prop="medicineCategory">
+          <el-input v-model="addForm.medicineCategory"></el-input>
         </el-form-item>
-        <el-form-item label="批准日期" prop="meidcineApprovaldate">
-          <el-input v-model="addForm.meidcineApprovaldate"></el-input>
+        <el-form-item label="批准日期" prop="medicineApprovaldate">
+          <el-input v-model="addForm.medicineApprovaldate"></el-input>
         </el-form-item>
-        <el-form-item label="原批准文号" prop="meidcineOriginalApprovalNumber">
-          <el-input v-model="addForm.meidcineOriginalApprovalNumber"></el-input>
+        <el-form-item label="原批准文号" prop="medicineOriginalApprovalNumber">
+          <el-input v-model="addForm.medicineOriginalApprovalNumber"></el-input>
         </el-form-item>
-        <el-form-item label="国产药/进口药" prop="meidcineCountry">
-          <el-input v-model="addForm.meidcineCountry"></el-input>
+        <el-form-item label="国产药/进口药" prop="medicineCountry">
+          <el-input v-model="addForm.medicineCountry"></el-input>
         </el-form-item>
-        <el-form-item label="进货价" prop="meidcinePurchasePrice">
-          <el-input v-model="addForm.meidcinePurchasePrice"></el-input>
+        <el-form-item label="进货价" prop="medicinePurchasePrice">
+          <el-input v-model="addForm.medicinePurchasePrice"></el-input>
         </el-form-item>
-        <el-form-item label="零售价" prop="meidcineRetailPrice">
-          <el-input v-model="addForm.meidcineRetailPrice"></el-input>
+        <el-form-item label="零售价" prop="medicineRetailPrice">
+          <el-input v-model="addForm.medicineRetailPrice"></el-input>
         </el-form-item>
-        <el-form-item label="批发价" prop="meidcineWholesalePrice">
-          <el-input v-model="addForm.meidcineWholesalePrice"></el-input>
+        <el-form-item label="批发价" prop="medicineWholesalePrice">
+          <el-input v-model="addForm.medicineWholesalePrice"></el-input>
         </el-form-item>
         <el-form-item label="药品供应商名" prop="supplierName">
           <el-input v-model="addForm.supplierName"></el-input>
@@ -133,47 +133,47 @@
     </el-dialog>
     <el-dialog title="修改信息" :visible.sync="mediclineDialogVisible" width="45%" @close="supplierDialogClose">
       <el-form :model="meidcineFrom" :rules="meidcineFromRules" ref="meidcineFromRef" label-width="100px">
-        <el-form-item label="批准文号" prop="meidcineApprovalNumber">
-          <el-input v-model="meidcineFrom.meidcineApprovalNumber"></el-input>
+        <el-form-item label="批准文号" prop="medicineApprovalNumber">
+          <el-input v-model="meidcineFrom.medicineApprovalNumber"></el-input>
         </el-form-item>
-        <el-form-item label="药品名" prop="meidcineName">
-          <el-input v-model="meidcineFrom.meidcineName"></el-input>
+        <el-form-item label="药品名" prop="medicineName">
+          <el-input v-model="meidcineFrom.medicineName"></el-input>
         </el-form-item>
-        <el-form-item label="药品英文名称" prop="meidcineEnglishName">
-          <el-input v-model="meidcineFrom.meidcineEnglishName"></el-input>
+        <el-form-item label="药品英文名称" prop="medicineEnglishName">
+          <el-input v-model="meidcineFrom.medicineEnglishName"></el-input>
         </el-form-item>
-        <el-form-item label="剂型种类" prop="meidcineDosageformCategory">
-          <el-input v-model="meidcineFrom.meidcineDosageformCategory"></el-input>
+        <el-form-item label="剂型种类" prop="medicineDosageformCategory">
+          <el-input v-model="meidcineFrom.medicineDosageformCategory"></el-input>
         </el-form-item>
-        <el-form-item label="生产单位" prop="meidcineManufacturer">
-          <el-input v-model="meidcineFrom.meidcineManufacturer"></el-input>
+        <el-form-item label="生产单位" prop="medicineManufacturer">
+          <el-input v-model="meidcineFrom.medicineManufacturer"></el-input>
         </el-form-item>
-        <el-form-item label="生产单位地址" prop="meidcineManufacturingAddress">
-          <el-input v-model="meidcineFrom.meidcineManufacturingAddress"></el-input>
+        <el-form-item label="生产单位地址" prop="medicineManufacturingAddress">
+          <el-input v-model="meidcineFrom.medicineManufacturingAddress"></el-input>
         </el-form-item>
-        <el-form-item label="规格" prop="meidcineSpecification">
-          <el-input v-model="meidcineFrom.meidcineSpecification"></el-input>
+        <el-form-item label="规格" prop="medicineSpecification">
+          <el-input v-model="meidcineFrom.medicineSpecification"></el-input>
         </el-form-item>
-        <el-form-item label="药品种类" prop="meidcineCategory">
-          <el-input v-model="meidcineFrom.meidcineCategory"></el-input>
+        <el-form-item label="药品种类" prop="medicineCategory">
+          <el-input v-model="meidcineFrom.medicineCategory"></el-input>
         </el-form-item>
-        <el-form-item label="批准日期" prop="meidcineApprovaldate">
-          <el-input v-model="meidcineFrom.meidcineApprovaldate"></el-input>
+        <el-form-item label="批准日期" prop="medicineApprovaldate">
+          <el-input v-model="meidcineFrom.medicineApprovaldate"></el-input>
         </el-form-item>
-        <el-form-item label="原批准文号" prop="meidcineOriginalApprovalNumber">
-          <el-input v-model="meidcineFrom.meidcineOriginalApprovalNumber"></el-input>
+        <el-form-item label="原批准文号" prop="medicineOriginalApprovalNumber">
+          <el-input v-model="meidcineFrom.medicineOriginalApprovalNumber"></el-input>
         </el-form-item>
-        <el-form-item label="国产药/进口药" prop="meidcineCountry">
-          <el-input v-model="meidcineFrom.meidcineCountry"></el-input>
+        <el-form-item label="国产药/进口药" prop="medicineCountry">
+          <el-input v-model="meidcineFrom.medicineCountry"></el-input>
         </el-form-item>
-        <el-form-item label="进货价" prop="meidcinePurchasePrice">
-          <el-input v-model="meidcineFrom.meidcinePurchasePrice"></el-input>
+        <el-form-item label="进货价" prop="medicinePurchasePrice">
+          <el-input v-model="meidcineFrom.medicinePurchasePrice"></el-input>
         </el-form-item>
-        <el-form-item label="零售价" prop="meidcineRetailPrice">
-          <el-input v-model="meidcineFrom.meidcineRetailPrice"></el-input>
+        <el-form-item label="零售价" prop="medicineRetailPrice">
+          <el-input v-model="meidcineFrom.medicineRetailPrice"></el-input>
         </el-form-item>
-        <el-form-item label="批发价" prop="meidcineWholesalePrice">
-          <el-input v-model="meidcineFrom.meidcineWholesalePrice"></el-input>
+        <el-form-item label="批发价" prop="medicineWholesalePrice">
+          <el-input v-model="meidcineFrom.medicineWholesalePrice"></el-input>
         </el-form-item>
         <el-form-item label="药品供应商名" prop="supplierName">
           <el-input v-model="meidcineFrom.supplierName"></el-input>
@@ -213,20 +213,20 @@ export default {
       total: 0,
       addDialogVisible: false,
       addForm: {
-        meidcineApprovalNumber: '',
-        meidcineName: '',
-        meidcineEnglishName: '',
-        meidcineDosageformCategory: '',
-        meidcineManufacturer: '',
-        meidcineManufacturingAddress: '',
-        meidcineSpecification: '',
-        meidcineCategory: '',
-        meidcineApprovaldate: '',
-        meidcineOriginalApprovalNumber: '',
-        meidcineCountry: '',
-        meidcinePurchasePrice: '',
-        meidcineRetailPrice: '',
-        meidcineWholesalePrice: '',
+        medicineApprovalNumber: '',
+        medicineName: '',
+        medicineEnglishName: '',
+        medicineDosageformCategory: '',
+        medicineManufacturer: '',
+        medicineManufacturingAddress: '',
+        medicineSpecification: '',
+        medicineCategory: '',
+        medicineApprovaldate: '',
+        medicineOriginalApprovalNumber: '',
+        medicineCountry: '',
+        medicinePurchasePrice: '',
+        medicineRetailPrice: '',
+        medicineWholesalePrice: '',
         supplierName: '',
         stochAmount: '',
         whseName: ''
@@ -245,7 +245,7 @@ export default {
     async getList() {
       this.$http
         .get(
-          'customers/' +
+          'medicines/' +
             this.queryInfo.pageNum +
             '/' +
             this.queryInfo.pageSize +
@@ -285,7 +285,7 @@ export default {
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
         this.$http
-          .post('customer', this.addForm)
+          .post('medicine', this.addForm)
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
@@ -305,7 +305,7 @@ export default {
       //     return this.$message.error('获取用户信息失败')
       //   this.stockForm = res.data
       this.$http
-        .get('customer/' + id)
+        .get('medicine/' + id)
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
@@ -333,7 +333,7 @@ export default {
         // )
         // if (res.meta.status !== 200) return this.$message.error('修改用户失败')
         this.$http
-          .put('customer', res)
+          .put('medicine', res)
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
@@ -368,7 +368,7 @@ export default {
       // if (res.meta.status !== 200) return this.$message.error('删除用户失败')
       // this.getUserList()
       this.$http
-        .delete('customer/' + id)
+        .delete('medicine/' + id)
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
