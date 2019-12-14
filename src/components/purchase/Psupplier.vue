@@ -21,11 +21,11 @@
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
         <el-table-column label="姓名" prop="supplierName" width="150"></el-table-column>
         <el-table-column label="电话" prop="supplierTel" width="200"></el-table-column>
-        <el-table-column label="邮编" prop="supplierZipCode" width="150"></el-table-column>
+        <el-table-column label="邮编" prop="supplierZipcode" width="150"></el-table-column>
         <el-table-column label="传真" prop="supplierFax" width="200"></el-table-column>
         <el-table-column label="地址" prop="supplierAddress" width="150"></el-table-column>
         <el-table-column label="库房地址" width="400" prop="supplierWarehouse"></el-table-column>
-        <el-table-column label="库房电话" width="150" prop="supplierWarehouse_Tel"></el-table-column>
+        <el-table-column label="库房电话" width="150" prop="supplierWarehouseTel"></el-table-column>
         <el-table-column label="开户行" prop="supplierOpeningBank" width="500"></el-table-column>
         <el-table-column label="银行账号" prop="supplierBankNumber" width="500"></el-table-column>
         <el-table-column label="联系人姓名" width="150" prop="supplierContactsName"></el-table-column>
@@ -70,37 +70,37 @@
     <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
         <el-form-item label="姓名" prop="supplierName">
-          <el-input v-model="addForm.custName"></el-input>
+          <el-input v-model="addForm.supplierName"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="supplierTel">
-          <el-input v-model="addForm.custTel"></el-input>
+          <el-input v-model="addForm.supplierTel"></el-input>
         </el-form-item>
         <el-form-item label="邮编" prop="supplierZipCode">
-          <el-input v-model="addForm.custZipCode"></el-input>
+          <el-input v-model="addForm.supplierZipcode"></el-input>
         </el-form-item>
         <el-form-item label="传真" prop="supplierFax">
-          <el-input v-model="addForm.custFax"></el-input>
+          <el-input v-model="addForm.supplierFax"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="supplierAddress">
-          <el-input v-model="addForm.custCategory"></el-input>
+          <el-input v-model="addForm.supplierAddress"></el-input>
         </el-form-item>
         <el-form-item label="库房地址" prop="supplierWarehouse">
-          <el-input v-model="addForm.custAddress"></el-input>
+          <el-input v-model="addForm.supplierWarehouse"></el-input>
         </el-form-item>
-        <el-form-item label="库房电话" prop="supplierWarehouse_Tel">
-          <el-input v-model="addForm.custShippingAddress"></el-input>
+        <el-form-item label="库房电话" prop="supplierWarehouseTel">
+          <el-input v-model="addForm.supplierWarehouseTel"></el-input>
         </el-form-item>
         <el-form-item label="开户行" prop="supplierOpeningBank">
-          <el-input v-model="addForm.custOpeningBank"></el-input>
+          <el-input v-model="addForm.supplierOpeningBank"></el-input>
         </el-form-item>
         <el-form-item label="银行账号" prop="supplierBankNumber">
-          <el-input v-model="addForm.custBankNumber"></el-input>
+          <el-input v-model="addForm.supplierBankNumber"></el-input>
         </el-form-item>
         <el-form-item label="联系人姓名" prop="supplierContactsName">
-          <el-input v-model="addForm.custContactsName"></el-input>
+          <el-input v-model="addForm.supplierContactsName"></el-input>
         </el-form-item>
         <el-form-item label="联系人电话" prop="supplierContactsTel">
-          <el-input v-model="addForm.custContactsTel"></el-input>
+          <el-input v-model="addForm.supplierContactsTel"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -116,8 +116,8 @@
         <el-form-item label="电话" prop="supplierTel">
           <el-input v-model="supplierFrom.supplierTel"></el-input>
         </el-form-item>
-        <el-form-item label="邮编" prop="supplierZipCode">
-          <el-input v-model="supplierFrom.supplierZipCode"></el-input>
+        <el-form-item label="邮编" prop="supplierZipcode">
+          <el-input v-model="supplierFrom.supplierZipcode"></el-input>
         </el-form-item>
         <el-form-item label="传真" prop="supplierFax">
           <el-input v-model="supplierFrom.supplierFax"></el-input>
@@ -128,8 +128,8 @@
         <el-form-item label="库房地址" prop="supplierWarehouse">
           <el-input v-model="supplierFrom.supplierWarehouse"></el-input>
         </el-form-item>
-        <el-form-item label="库房电话" prop="supplierWarehouse_Tel">
-          <el-input v-model="supplierFrom.supplierWarehouse_Tel"></el-input>
+        <el-form-item label="库房电话" prop="supplierWarehouseTel">
+          <el-input v-model="supplierFrom.supplierWarehouseTel"></el-input>
         </el-form-item>
         <el-form-item label="开户行" prop="supplierOpeningBank">
           <el-input v-model="supplierFrom.supplierOpeningBank"></el-input>
@@ -174,11 +174,11 @@ export default {
       addForm: {
         supplierName: '',
         supplierTel: '',
-        supplierZipCode: '',
+        supplierZipcode: '',
         supplierFax: '',
         supplierAddress: '',
         supplierWarehouse: '',
-        supplierWarehouse_Tel: '',
+        supplierWarehouseTel: '',
         supplierOpeningBank: '',
         supplierBankNumber: '',
         supplierContactsName: '',
@@ -208,7 +208,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        supplierWarehouse_Tel: [
+        supplierWarehouseTel: [
           //   {
           //     type: 'number',
           //     message: '只能是数字',
@@ -267,7 +267,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        supplierWarehouse_Tel: [
+        supplierWarehouseTel: [
           //   {
           //     type: 'number',
           //     message: '只能是数字',
@@ -302,7 +302,7 @@ export default {
     async getList() {
       this.$http
         .get(
-          'customers/' +
+          'suppliers/' +
             this.queryInfo.pageNum +
             '/' +
             this.queryInfo.pageSize +
@@ -342,11 +342,11 @@ export default {
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
         this.$http
-          .post('customer', this.addForm)
+          .post('supplier', this.addForm)
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
-              this.$message.success('添加用户成功')
+              this.$message.success(response.data.message)
             }.bind(this)
           )
           .catch(function(error) {
@@ -362,11 +362,11 @@ export default {
       //     return this.$message.error('获取用户信息失败')
       //   this.stockForm = res.data
       this.$http
-        .get('customer/' + id)
+        .get('supplier/' + id)
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.supplierFrom = response.data.data.customerVO
+            this.supplierFrom = response.data.data.supplierVO
             console.log(id)
           }.bind(this)
         )
@@ -390,7 +390,7 @@ export default {
         // )
         // if (res.meta.status !== 200) return this.$message.error('修改用户失败')
         this.$http
-          .put('customer', res)
+          .put('supplier', res)
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
@@ -425,7 +425,7 @@ export default {
       // if (res.meta.status !== 200) return this.$message.error('删除用户失败')
       // this.getUserList()
       this.$http
-        .delete('customer/' + id)
+        .delete('supplier/' + id)
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)

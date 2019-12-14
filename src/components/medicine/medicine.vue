@@ -48,7 +48,7 @@
                 type="primary"
                 icon="el-icon-edit"
                 size="mini"
-                @click="showDialog(scope.row.meidcineId)"
+                @click="showDialog(scope.row.medicineId)"
               ></el-button>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
@@ -56,7 +56,7 @@
                 type="primary"
                 icon="el-icon-delete"
                 size="mini"
-                @click="removeById(scope.row.meidcineId)"
+                @click="removeById(scope.row.medicineId)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -73,7 +73,7 @@
       ></el-pagination>
     </el-card>
     <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="110px">
         <el-form-item label="批准文号" prop="medicineApprovalNumber">
           <el-input v-model="addForm.medicineApprovalNumber"></el-input>
         </el-form-item>
@@ -116,15 +116,15 @@
         <el-form-item label="批发价" prop="medicineWholesalePrice">
           <el-input v-model="addForm.medicineWholesalePrice"></el-input>
         </el-form-item>
-        <el-form-item label="药品供应商名" prop="supplierName">
-          <el-input v-model="addForm.supplierName"></el-input>
-        </el-form-item>
-        <el-form-item label="药品库存量" prop="stochAmount">
-          <el-input v-model="addForm.stochAmount"></el-input>
-        </el-form-item>
-        <el-form-item label="药品存放仓库" prop="whseName">
-          <el-input v-model="addForm.whseName" disabled></el-input>
-        </el-form-item>
+<!--        <el-form-item label="药品供应商名" prop="supplierName">-->
+<!--          <el-input v-model="addForm.supplierName" disabled></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="药品库存量" prop="stochAmount">-->
+<!--          <el-input v-model="addForm.stochAmount" disabled></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="药品存放仓库" prop="whseName">-->
+<!--          <el-input v-model="addForm.whseName" disabled></el-input>-->
+<!--        </el-form-item>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -132,7 +132,7 @@
       </span>
     </el-dialog>
     <el-dialog title="修改信息" :visible.sync="mediclineDialogVisible" width="45%" @close="supplierDialogClose">
-      <el-form :model="meidcineFrom" :rules="meidcineFromRules" ref="meidcineFromRef" label-width="100px">
+      <el-form :model="meidcineFrom" :rules="meidcineFromRules" ref="meidcineFromRef" label-width="110px">
         <el-form-item label="批准文号" prop="medicineApprovalNumber">
           <el-input v-model="meidcineFrom.medicineApprovalNumber"></el-input>
         </el-form-item>
@@ -175,15 +175,15 @@
         <el-form-item label="批发价" prop="medicineWholesalePrice">
           <el-input v-model="meidcineFrom.medicineWholesalePrice"></el-input>
         </el-form-item>
-        <el-form-item label="药品供应商名" prop="supplierName">
-          <el-input v-model="meidcineFrom.supplierName"></el-input>
-        </el-form-item>
-        <el-form-item label="药品库存量" prop="stochAmount">
-          <el-input v-model="meidcineFrom.stochAmount"></el-input>
-        </el-form-item>
-        <el-form-item label="药品存放仓库" prop="whseName">
-          <el-input v-model="meidcineFrom.whseName" disabled></el-input>
-        </el-form-item>
+<!--        <el-form-item label="药品供应商名" prop="supplierName">-->
+<!--          <el-input v-model="meidcineFrom.supplierName" disabled></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="药品库存量" prop="stochAmount">-->
+<!--          <el-input v-model="meidcineFrom.stochAmount" disabled></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="药品存放仓库" prop="whseName">-->
+<!--          <el-input v-model="meidcineFrom.whseName" disabled></el-input>-->
+<!--        </el-form-item>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="mediclineDialogVisible = false">取 消</el-button>
@@ -243,6 +243,8 @@ export default {
   },
   methods: {
     async getList() {
+      // const res = await this.$http.get('medicines/' + '1/' + '10/')
+      // console.log(res)
       this.$http
         .get(
           'medicines/' +
@@ -309,7 +311,7 @@ export default {
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.meidcineFrom = response.data.data.customerVO
+            this.meidcineFrom = response.data.data.medicineVO
             console.log(id)
           }.bind(this)
         )
