@@ -29,7 +29,7 @@
         <el-table-column label="工号" width="200" prop="userNumber"></el-table-column>
         <el-table-column label="状态" width="150">
           <template slot-scope="scope" active-color="#727cf5" inactive-color="#ff4949">
-            <el-switch v-model="scope.row.valid" active-value="1" inactive-value="0" @change="userValidChanged(scope.row)" ></el-switch>
+            <el-switch v-model="scope.row.userValid" :active-value="1" :inactive-value="0" @change="userValidChanged(scope.row)" ></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="上一次登录Ip" prop="lastLoginIp" width="500"></el-table-column>
@@ -77,7 +77,7 @@
         <el-form-item label="用户名" prop="userName">
           <el-input v-model="addForm.userName"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="userSex">
+        <el-form-item label="性别" prop="userSex">
           <el-input v-model="addForm.userSex"></el-input>
         </el-form-item>
         <el-form-item label="生日" prop="userBirthday">
@@ -109,7 +109,7 @@
         <el-form-item label="用户名" prop="userName">
           <el-input v-model="userFrom.userName"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="userSex">
+        <el-form-item label="性别" prop="userSex">
           <el-input v-model="userFrom.userSex"></el-input>
         </el-form-item>
         <el-form-item label="生日" prop="userBirthday">
@@ -155,7 +155,7 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      list: [{ userName: '122154', valid: '1' }],
+      list: [{ userName: '122154', userValid: '1' }],
       total: 0,
       addDialogVisible: false,
       addForm: {
@@ -167,7 +167,7 @@ export default {
         userPhone: '',
         userNumber: '',
         userEmail: '',
-        valid: '',
+        userValid: '',
         lastLoginIp: '',
         lastLoginTime: '',
         genTime: ''
@@ -197,6 +197,7 @@ export default {
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
+            console.log(response)
             this.list = response.data.data.list
             this.total = response.data.data.total
           }.bind(this)
@@ -218,25 +219,30 @@ export default {
         this.$refs.addFormRef.resetFields()
       }, 500)
     },
-    add() {
-      this.$refs.addFormRef.validate(async valid => {
-        if (!valid) return this.$message.error('请填写欠缺的信息')
+    async add() {
+      this.$refs.addFormRef.validate(async userValid => {
+        if (!userValid) return this.$message.error('请填写欠缺的信息')
         // //发送请求完成添加用户的操作
         // const { data: res } = await this.$http.post('users', this.addForm)
         // //判断如果添加失败，就做提示
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
-        this.$http
-          .post('user', this.addForm)
-          .then(
-            function(response) {
-              if (response.data.status !== '200') return this.$message.error(response.data.message)
-              this.$message.success(response.data.message)
-            }.bind(this)
-          )
-          .catch(function(error) {
-            console.log(error)
-          })
+        // this.$http
+        //   .post('user', this.addForm)
+        //   .then(
+        //     function(response) {
+        //       if (response.data.status !== '200') return this.$message.error(response.data.message)
+        //       this.$message.success(response.data.message)
+        //     }.bind(this)
+        //   )
+        //   .catch(function(error) {
+        //     console.log(error)
+        //   })
+        // this.addDialogVisible = false
+        // this.getList()
+        const { data: res } = await this.$http.post('user', this.addForm)
+        if (res.status !== '200') return this.$message.error(res.message)
+        this.$message.success(res.message)
         this.addDialogVisible = false
         this.getList()
       })
@@ -265,10 +271,10 @@ export default {
         this.$refs.userFromRef.resetFields()
       }, 500)
     },
-    Info() {
+    async Info() {
       const res = this.userFrom
-      this.$refs.userFromRef.validate(async valid => {
-        if (!valid) return this.$message.error('请填写完整用户信息')
+      this.$refs.userFromRef.validate(async userValid => {
+        if (!userValid) return this.$message.error('请填写完整用户信息')
         // const { data: res } = await this.$http.put(
         //   'users/' + this.editForm.id,
         //   this.editForm
@@ -329,13 +335,12 @@ export default {
       console.log(this.multipleSelection)
     },
     async userValidChanged(row) {
-      // const { data: res } = await this.$http.put('user/' + row.userId + '/' + row.valid)
-      // if (res.data.status !== '200') {
-      //   row.valid = !row.valid
-      //   return this.$message.error(res.data.message)
-      // }
-      // this.$message.success(res.data.message)
-      console.log(row)
+      const { data: res } = await this.$http.put('user/' + row.userId + '/' + row.userValid)
+      if (res.status !== '200') {
+        row.userValid = !row.userValid
+        return this.$message.error(res.message)
+      }
+      this.$message.success(res.message)
     }
   }
 }
