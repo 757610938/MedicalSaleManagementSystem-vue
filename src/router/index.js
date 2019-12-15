@@ -11,12 +11,14 @@ import Scustomer from '../components/sale/Scustomer.vue'
 import Spush from '../components/sale/Spush.vue'
 import Info from '../components/information/information.vue'
 import Stock from '../components/ware/Stock.vue'
+import Wstock from '../components/ware/Wstock.vue'
 import Pstock from '../components/ware/Pstock.vue'
 import Ostock from '../components/ware/Ostock.vue'
 import Porder from '../components/purchase/Porder.vue'
 import Precords from '../components/purchase/Precords.vue'
 import Psupplier from '../components/purchase/Psupplier.vue'
 import Medicine from '../components/medicine/medicine.vue'
+import IStock from '../components/information/iStock.vue'
 
 Vue.use(VueRouter)
 
@@ -44,12 +46,14 @@ const routes = [
       { path: '/spush', component: Spush },
       { path: '/info', component: Info },
       { path: '/stock', component: Stock },
+      { path: '/wstock', component: Wstock },
       { path: '/pstock', component: Pstock },
       { path: '/ostock', component: Ostock },
       { path: '/porder', component: Porder },
       { path: '/precords', component: Precords },
       { path: '/psupplier', component: Psupplier },
-      { path: '/medicine', component: Medicine }
+      { path: '/medicine', component: Medicine },
+      { path: '/istock', component: IStock }
     ]
   }
 ]

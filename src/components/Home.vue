@@ -87,6 +87,12 @@
                 <span>仓库信息管理</span>
               </template>
             </el-menu-item>
+            <el-menu-item index="wstock" @click="saveNavState('wstock')">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>库存管理</span>
+              </template>
+            </el-menu-item>
             <el-menu-item index="ostock" @click="saveNavState('ostock')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -110,7 +116,7 @@
             <el-menu-item index="porder" @click="saveNavState('porder')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>订单管理</span>
+                <span>采购单管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="precords" @click="saveNavState('precords')">

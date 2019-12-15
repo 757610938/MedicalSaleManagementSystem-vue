@@ -40,7 +40,11 @@ import {
   Popover,
   Dialog,
   Loading,
-  MessageBox
+  MessageBox,
+  Select,
+  Option,
+  OptionGroup,
+  Tag
 }
   from 'element-ui'
 
@@ -82,5 +86,9 @@ Vue.use(Calendar)
 Vue.use(Popover)
 Vue.use(Dialog)
 Vue.use(Loading)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(OptionGroup)
+Vue.use(Tag)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

@@ -19,17 +19,12 @@
       <el-table :data="userlist" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" label="序号"></el-table-column>
-        <el-table-column label="仓库名" prop="email" fixed></el-table-column>
-        <el-table-column label="仓库地址" prop="mobile"></el-table-column>
-        <el-table-column label="电话" prop="role_name"></el-table-column>
-        <el-table-column label="最大容量" prop="role_name"></el-table-column>
-        <el-table-column label="仓库管理员" prop="username"></el-table-column>
-        <el-table-column label="创建时间">
-          <template slot-scope="scope">
-            <i class="el-icon-time"></i>
-            <span>{{ scope.row.time }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="仓库名" prop="whseName" fixed></el-table-column>
+        <el-table-column label="仓库地址" prop="whseAddress"></el-table-column>
+        <el-table-column label="电话" prop="whseTel"></el-table-column>
+        <el-table-column label="最大容量" prop="whseCapacity"></el-table-column>
+        <el-table-column label="仓库管理员" prop="userNumber"></el-table-column>
+        <el-table-column label="创建时间" prop="genTime"></el-table-column>
         <el-table-column label="操作" width="130px" fixed="right">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
@@ -37,7 +32,7 @@
                 type="primary"
                 icon="el-icon-edit"
                 size="mini"
-                @click="showStockDialog(scope.row.username)"
+                @click="showStockDialog(scope.row.whseId)"
               ></el-button>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
@@ -45,7 +40,7 @@
                 type="primary"
                 icon="el-icon-delete"
                 size="mini"
-                @click="removeStockById(scope.row.username)"
+                @click="removeStockById(scope.row.whseId)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -129,15 +124,9 @@ export default {
       queryInfo: {
         query: '',
         pagenum: 1,
-        pagesize: 2
+        pagesize: 5
       },
-      userlist: [
-        { username: '111', email: '111', time: '2019-01-08' },
-        { username: '112', email: '112', time: new Date() },
-        { username: '113', email: '113', time: new Date() },
-        { username: '114', email: '114', time: new Date() },
-        { username: '115', email: '115', time: new Date() }
-      ],
+      userlist: [],
       total: 5,
       addDialogVisible: false,
       addForm: {
@@ -229,7 +218,7 @@ export default {
     }
   },
   created() {
-    // this.getUserList()
+    this.getUserList()
   },
   methods: {
     async getUserList() {
@@ -241,22 +230,26 @@ export default {
       //   }
       //   this.userlist = res.data.users
       //   this.total = res.data.total
-      console.log('获取了列表')
+      const { data: res } = await this.$http.get('warehouseManage/jsonWarehouseList/' + this.queryInfo.pagenum + '/' + this.queryInfo.pagesize)
+      if (res.status !== '200') return this.$message.error(res.message)
+      this.$message.success(res.message)
+      this.userlist = res.data.list
+      this.total = res.data.total
     },
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize
-      //   this.getUserList()
+      this.getUserList()
     },
     handleCurrentChange(newPage) {
       this.queryInfo.pagenum = newPage
-      //   this.getUserList()
+      this.getUserList()
     },
     addDialogClose() {
       setTimeout(() => {
         this.$refs.addFormRef.resetFields()
-      }, 500)
+      }, 5000)
     },
-    addStock() {
+    async addStock() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写真缺的用户信息')
         // //发送请求完成添加用户的操作
@@ -264,35 +257,34 @@ export default {
         // //判断如果添加失败，就做提示
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
-        this.$message.success('添加用户成功')
+        const { data: res } = await this.$http.post('warehouseManage/warehouse', this.addForm)
+        if (res.status !== '200') return this.$message.error(res.message)
+        this.$message.success(res.message)
         this.addDialogVisible = false
         this.getUserList()
       })
     },
     async showStockDialog(id) {
-      //   const { data: res } = await this.$http.get('users/' + id)
-      //   if (res.meta.status !== 200)
-      //     return this.$message.error('获取用户信息失败')
-      //   this.stockForm = res.data
-      console.log(id)
+      const { data: res } = await this.$http.get('warehouseManage/warehouse' + id)
+      if (res.status !== 200) return this.$message.error(res.message)
+      this.stockForm = res.data.list
       this.stockDialogVisible = true
     },
     stockDialogClose() {
       setTimeout(() => {
         this.$refs.stockFromRef.resetFields()
-      }, 500)
+      }, 5000)
     },
     stockInfo() {
       this.$refs.stockFromRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写完整用户信息')
-        // const { data: res } = await this.$http.put(
-        //   'users/' + this.editForm.id,
-        //   this.editForm
-        // )
-        // if (res.meta.status !== 200) return this.$message.error('修改用户失败')
+        const { data: res } = await this.$http.put(
+          'warehouseManage/warehouse', this.stockFrom
+        )
+        if (res.meta.status !== 200) return this.$message.error('修改用户失败')
         this.$message.success('修改信息成功')
         this.stockDialogVisible = false
-        // this.getUserList()
+        this.getUserList()
       })
     },
     async removeStockById(id) {
@@ -308,12 +300,10 @@ export default {
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
-      // //发送请求根据id完成删除操作
-      // const { data: res } = await this.$http.delete('users/' + id)
-      // //判断如果删除失败，就做提示
-      // if (res.meta.status !== 200) return this.$message.error('删除用户失败')
-      // this.getUserList()
-      this.$message.success('删除成功！')
+      const { data: res } = await this.$http.delete('warehouseManage/warehouse' + id)
+      if (res.meta.status !== '200') return this.$message.error(res.message)
+      this.$message.success(res.message)
+      this.getUserList()
       console.log(confirmResult)
     },
     handleSelectionChange(val) {

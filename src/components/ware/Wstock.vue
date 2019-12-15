@@ -2,12 +2,41 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>药品管理</el-breadcrumb-item>
+      <el-breadcrumb-item>仓库管理</el-breadcrumb-item>
+      <el-breadcrumb-item>库存管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-row :gutter="20">
+        <el-col :span="4">
+          <template>
+            <el-select v-model="value" clearable placeholder="请选择" @change="searchChange">
+              <el-option-group v-for="group in options" :key="group.label" :label="group.label">
+                <el-option
+                  v-for="item in group.options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-option-group>
+            </el-select>
+          </template>
+        </el-col>
+       <el-col :span="4">
+          <template>
+            <el-select v-model="stockValue" clearable placeholder="请选择" @change="stockChange">
+              <el-option-group v-for="group in stockOptions" :key="group.label" :label="group.label">
+                <el-option
+                  v-for="item in group.options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-option-group>
+            </el-select>
+          </template>
+        </el-col>
         <el-col :span="8">
-          <el-input placeholder="采购员工号" v-model="queryInfo.name" clearable @clear="getList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.name" clearable @clear="getList">
             <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
           </el-input>
         </el-col>
@@ -17,32 +46,26 @@
       </el-row>
       <el-table :data="list" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="采购编号" prop="purOrderId"></el-table-column>
-        <el-table-column label="采购主题" prop="purName"></el-table-column>
-        <el-table-column label="金额" prop="purTotalMoney"></el-table-column>
-        <el-table-column label="采购日期" prop="purDate"></el-table-column>
-        <el-table-column label="状态" prop="purStatus">
+        <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
+        <el-table-column label="药品名" prop="medicineName"></el-table-column>
+        <el-table-column label="药品种类" prop="medicineCategory" ></el-table-column>
+        <el-table-column label="药品仓库ID" prop="whseId" ></el-table-column>
+        <el-table-column label="药品仓库名字" prop="whseName" ></el-table-column>
+        <el-table-column label="药品库存量" prop="stochAmount" ></el-table-column>
+        <!-- <el-table-column label="创建时间" prop="time" width="150">
           <template slot-scope="scope">
-            <el-tag>{{ scope.row.purStatus }}</el-tag>
+            <i class="el-icon-time"></i>
+            <span>{{ scope.row.time }}</span>
           </template>
-        </el-table-column>
-        <el-table-column label="负责人" prop="userNumber"></el-table-column>
-        <el-table-column label="操作" width="180px" fixed="right">
+        </el-table-column>-->
+        <el-table-column label="操作" width="130px" fixed="right">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="详情" placement="top" :enterable="false">
-              <el-button
-                type="primary"
-                icon="el-icon-more-outline"
-                size="mini"
-                @click="detailsDialog(scope.row.purOrderId)"
-              ></el-button>
-            </el-tooltip>
             <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
               <el-button
                 type="primary"
                 icon="el-icon-edit"
                 size="mini"
-                @click="showDialog(scope.row.purOrderId)"
+                @click="showDialog(scope.row.whseId)"
               ></el-button>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
@@ -50,7 +73,7 @@
                 type="primary"
                 icon="el-icon-delete"
                 size="mini"
-                @click="removeById(scope.row.purOrderId)"
+                @click="removeById(scope.row.whseId)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -68,47 +91,66 @@
     </el-card>
     <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="110px">
-        <el-form-item label="采购编号" prop="purOrderId">
-          <el-input v-model="addForm.purOrderId"></el-input>
+        <el-form-item label="药品名" prop="medicineName">
+          <el-input v-model="addForm.medicineName"></el-input>
         </el-form-item>
-        <el-form-item label="采购主题" prop="purName">
-          <el-input v-model="addForm.purName"></el-input>
+        <el-form-item label="药品种类" prop="medicineCategory">
+          <el-input v-model="addForm.medicineCategory"></el-input>
         </el-form-item>
-        <el-form-item label="金额" prop="purTotalMoney">
-          <el-input v-model="addForm.purTotalMoney"></el-input>
+        <el-form-item label="药品仓库ID" prop="whseId">
+          <el-input v-model="addForm.whseId"></el-input>
         </el-form-item>
-        <el-form-item label="采购日期" prop="purDate">
-          <el-input v-model="addForm.purDate"></el-input>
+        <el-form-item label="药品仓库名字" prop="whseName">
+          <el-input v-model="addForm.whseName"></el-input>
         </el-form-item>
-        <el-form-item label="负责人" prop="userNumber">
-          <el-input v-model="addForm.userNumber"></el-input>
+        <el-form-item label="药品库存量" prop="stochAmount">
+          <el-input v-model="addForm.medicineManufacturer"></el-input>
         </el-form-item>
+        <!--        <el-form-item label="药品供应商名" prop="supplierName">-->
+        <!--          <el-input v-model="addForm.supplierName" disabled></el-input>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="药品库存量" prop="stochAmount">-->
+        <!--          <el-input v-model="addForm.stochAmount" disabled></el-input>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="药品存放仓库" prop="whseName">-->
+        <!--          <el-input v-model="addForm.whseName" disabled></el-input>-->
+        <!--        </el-form-item>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addPur">确 定</el-button>
+        <el-button type="primary" @click="addMedicline">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="修改信息" :visible.sync="purDialogVisible" width="45%" @close="supplierDialogClose">
-      <el-form :model="purFrom" :rules="purFromRules" ref="purFromRef" label-width="110px">
-        <el-form-item label="采购编号" prop="purOrderId">
-          <el-input v-model="purFrom.purOrderId"></el-input>
+    <el-dialog
+      title="修改信息"
+      :visible.sync="wStockDialogVisible"
+      width="45%"
+      @close="wStockDialogClose"
+    >
+      <el-form
+        :model="wStockFrom"
+        :rules="wStockFromRules"
+        ref="wStockFromRef"
+        label-width="110px"
+      >
+        <el-form-item label="药品名" prop="medicineName">
+          <el-input v-model="wStockFrom.medicineName"></el-input>
         </el-form-item>
-        <el-form-item label="采购主题" prop="purName">
-          <el-input v-model="purFrom.purName"></el-input>
+        <el-form-item label="药品种类" prop="medicineCategory">
+          <el-input v-model="wStockFrom.medicineCategory"></el-input>
         </el-form-item>
-        <el-form-item label="金额" prop="purTotalMoney">
-          <el-input v-model="purFrom.purTotalMoney"></el-input>
+        <el-form-item label="药品仓库ID" prop="whseId">
+          <el-input v-model="wStockFrom.whseId"></el-input>
         </el-form-item>
-        <el-form-item label="采购日期" prop="purDate">
-          <el-input v-model="purFrom.purDate"></el-input>
+        <el-form-item label="药品仓库名字" prop="whseName">
+          <el-input v-model="wStockFrom.whseName"></el-input>
         </el-form-item>
-        <el-form-item label="负责人" prop="userNumber">
-          <el-input v-model="purFrom.userNumber"></el-input>
+        <el-form-item label="药品库存量" prop="stochAmount">
+          <el-input v-model="wStockFrom.stochAmount"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="purDialogVisible = false">取 消</el-button>
+        <el-button @click="wStockDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="Info">确 定</el-button>
       </span>
     </el-dialog>
@@ -131,26 +173,69 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      list: [
-        { purOrderId: 1, purStatus: '未审核' },
-        { purOrderId: 2, purStatus: '已提交数据' },
-        { purOrderId: 3, purStatus: '已审核' }
-      ],
+      list: [{ supplierName: '122154' }],
       total: 0,
       addDialogVisible: false,
       addForm: {
-        purOrderId: '',
-        purName: '',
-        purTotalMoney: '',
-        purDate: '',
-        purStatus: '',
-        userNumber: ''
+        medicineName: '',
+        medicineCategory: '',
+        whseId: '',
+        whseName: '',
+        stochAmount: ''
       },
       addFormRules: {},
-      purDialogVisible: false,
-      purFrom: {},
-      purFromRules: {},
-      multipleSelection: []
+      wStockDialogVisible: false,
+      wStockFrom: {},
+      wStockFromRules: {},
+      multipleSelection: [],
+      options: [
+        {
+          label: '查询条件',
+          options: [
+            {
+              value: 'searchByMedicineId',
+              label: '根据id'
+            },
+            {
+              value: 'searchByMedicineName',
+              label: '根据名字'
+            },
+            {
+              value: 'searchByMedicineCategory',
+              label: '根据种类'
+            },
+            {
+              value: 'searchAll',
+              label: '不限制'
+            }
+          ]
+        }
+      ],
+      stockOptions: [
+        {
+          label: '单仓库查询',
+          options: [
+            {
+              value: 'searchByMedicineId',
+              label: '1号仓库'
+            },
+            {
+              value: 'searchByMedicineName',
+              label: '2号仓库'
+            },
+            {
+              value: 'searchByMedicineCategory',
+              label: '3号仓库'
+            },
+            {
+              value: 'searchAll',
+              label: '4号仓库'
+            }
+          ]
+        }
+      ],
+      value: '',
+      stockValue: ''
     }
   },
   created() {
@@ -160,9 +245,25 @@ export default {
     async getList() {
       // const res = await this.$http.get('medicines/' + '1/' + '10/')
       // console.log(res)
-      const { data: res } = await this.$http.get('purchases/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize)
-      if (res.status !== '200') return this.$message.error(res.message)
-      this.$message.success(res.message)
+      this.$http
+        .get(
+          'medicines/' +
+            this.queryInfo.pageNum +
+            '/' +
+            this.queryInfo.pageSize +
+            '/' +
+            this.queryInfo.name
+        )
+        .then(
+          function(response) {
+            if (response.data.status !== '200') return this.$message.error(response.data.message)
+            this.list = response.data.data.list
+            this.total = response.data.data.total
+          }.bind(this)
+        )
+        .catch(function(error) {
+          console.log(error)
+        })
     },
     handleSizeChange(newSize) {
       this.queryInfo.pageSize = newSize
@@ -177,7 +278,7 @@ export default {
         this.$refs.addFormRef.resetFields()
       }, 500)
     },
-    addPur() {
+    addMedicline() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写真缺的用户信息')
         // //发送请求完成添加用户的操作
@@ -210,23 +311,23 @@ export default {
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.purFrom = response.data.data.medicineVO
+            this.wStockFrom = response.data.data.medicineVO
             console.log(id)
           }.bind(this)
         )
         .catch(function(error) {
           console.log(error)
         })
-      this.purDialogVisible = true
+      this.wStockDialogVisible = true
     },
-    supplierDialogClose() {
+    wStockDialogClose() {
       setTimeout(() => {
-        this.$refs.purFromRef.resetFields()
+        this.$refs.wStockFromRef.resetFields()
       }, 500)
     },
     Info() {
-      const res = this.purFrom
-      this.$refs.purFromRef.validate(async valid => {
+      const res = this.wStockFrom
+      this.$refs.wStockFromRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写完整用户信息')
         // const { data: res } = await this.$http.put(
         //   'users/' + this.editForm.id,
@@ -244,7 +345,7 @@ export default {
           .catch(function(error) {
             console.log(error)
           })
-        this.purDialogVisible = false
+        this.wStockDialogVisible = false
         setTimeout(() => {
           this.getList()
         }, 1000)
@@ -287,8 +388,11 @@ export default {
       this.multipleSelection = val
       console.log(this.multipleSelection)
     },
-    detailsDialog(id) {
-      console.log(id)
+    searchChange() {
+      console.log(this.value)
+    },
+    stockChange() {
+      console.log(this.stockValue)
     }
   }
 }
