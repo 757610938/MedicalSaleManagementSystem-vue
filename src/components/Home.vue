@@ -198,7 +198,7 @@
                 <el-dropdown-item icon="el-icon-close" command="c">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <div class="coldiv">欢迎您！{{username}}</div>
+            <div class="coldiv">欢迎您！{{user}}</div>
           </el-col>
           <el-drawer title="我来了" :visible.sync="drawer" :with-header="false">
             <!-- <el-row>
@@ -255,11 +255,13 @@ export default {
         '145': 'iconfont icon-baobiao'
       },
       isCollapse: false,
-      activePath: ''
+      activePath: '',
+      user: ''
     }
   },
   created() {
     this.activePath = window.sessionStorage.getItem('activePath')
+    this.user = window.sessionStorage.getItem('user ')
   },
   methods: {
     logout() {

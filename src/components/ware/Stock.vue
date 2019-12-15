@@ -230,7 +230,7 @@ export default {
       //   }
       //   this.userlist = res.data.users
       //   this.total = res.data.total
-      const { data: res } = await this.$http.get('warehouseManage/jsonWarehouseList/' + this.queryInfo.pagenum + '/' + this.queryInfo.pagesize)
+      const { data: res } = await this.$http.get('warehouseManage/warehouse/' + this.queryInfo.pagenum + '/' + this.queryInfo.pagesize)
       if (res.status !== '200') return this.$message.error(res.message)
       this.$message.success(res.message)
       this.userlist = res.data.list
@@ -247,7 +247,7 @@ export default {
     addDialogClose() {
       setTimeout(() => {
         this.$refs.addFormRef.resetFields()
-      }, 5000)
+      }, 500)
     },
     async addStock() {
       this.$refs.addFormRef.validate(async valid => {
@@ -273,7 +273,7 @@ export default {
     stockDialogClose() {
       setTimeout(() => {
         this.$refs.stockFromRef.resetFields()
-      }, 5000)
+      }, 500)
     },
     stockInfo() {
       this.$refs.stockFromRef.validate(async valid => {
@@ -300,8 +300,8 @@ export default {
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete('warehouseManage/warehouse' + id)
-      if (res.meta.status !== '200') return this.$message.error(res.message)
+      const { data: res } = await this.$http.delete('warehouseManage/warehouse/' + id)
+      if (res.status !== '200') return this.$message.error(res.message)
       this.$message.success(res.message)
       this.getUserList()
       console.log(confirmResult)

@@ -160,8 +160,10 @@ export default {
     async getList() {
       // const res = await this.$http.get('medicines/' + '1/' + '10/')
       // console.log(res)
-      const { data: res } = await this.$http.get('purchases/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize)
+      const { data: res } = await this.$http.get('purchases/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize + '/' + this.queryInfo.name)
       if (res.status !== '200') return this.$message.error(res.message)
+      this.list = res.data.list
+      this.total = res.data.total
       this.$message.success(res.message)
     },
     handleSizeChange(newSize) {
@@ -269,7 +271,7 @@ export default {
       // if (res.meta.status !== 200) return this.$message.error('删除用户失败')
       // this.getUserList()
       this.$http
-        .delete('medicine/' + id)
+        .delete('purchase/' + id)
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)

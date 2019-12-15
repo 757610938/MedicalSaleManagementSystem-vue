@@ -60,6 +60,7 @@ export default {
           if (response.data.status !== '200') return this.$message.error(response.data.message)
           this.$message.success(response.data.message)
           window.sessionStorage.setItem('token', response.data.data.token)
+          window.localStorage.setItem('user', response.data.data.userVO)
           this.$router.push('/home')
         }.bind(this)).catch(function (error) {
           console.log(error)
