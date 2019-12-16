@@ -68,7 +68,7 @@
       <el-button type="primary" class="el-card">保存</el-button>
       <el-button type="primary">提交审核</el-button>
     </el-card>
-    <el-dialog title="收货地址" :visible.sync="medicineDialogTableVisible">
+    <el-dialog title="药品信息" :visible.sync="medicineDialogTableVisible">
       <el-table :data="medicineList" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
@@ -114,7 +114,7 @@ export default {
       queryInfo: {
         name: '',
         pageNum: 1,
-        pageSzie: 10
+        pageSize: 10
       },
       purFrom: {
         purDtlList: []
@@ -125,7 +125,8 @@ export default {
         { medicineId: 3, medicineName: 'ccc' },
         { medicineId: 4, medicineName: 'ddd' }
       ],
-      medicineDialogTableVisible: false
+      medicineDialogTableVisible: false,
+      total: ''
     }
   },
   created() {
@@ -158,6 +159,25 @@ export default {
       console.log(value)
     },
     getMedicineList() {
+      this.$http
+        .get(
+          'medicines/' +
+          this.queryInfo.pageNum +
+          '/' +
+          this.queryInfo.pageSize +
+          '/' +
+          this.queryInfo.name
+        )
+        .then(
+          function(response) {
+            if (response.data.status !== '200') return this.$message.error(response.data.message)
+            this.medicineList = response.data.data.list
+            this.total = response.data.data.total
+          }.bind(this)
+        )
+        .catch(function(error) {
+          console.log(error)
+        })
       console.log('获取了列表')
     },
     medicineDialog() {

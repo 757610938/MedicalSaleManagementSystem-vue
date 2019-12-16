@@ -40,7 +40,7 @@
             <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4" style="position:absolute; left:85%">
+        <el-col :span="4">
           <el-button type="primary" @click="addDialogVisible = true">新增</el-button>
         </el-col>
       </el-row>

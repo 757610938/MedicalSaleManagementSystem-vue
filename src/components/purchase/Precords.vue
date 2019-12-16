@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>药品管理</el-breadcrumb-item>
+      <el-breadcrumb-item>采购列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-row :gutter="20">
@@ -17,7 +17,7 @@
       </el-row>
       <el-table :data="list" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="采购编号" prop="purOrderId"></el-table-column>
+        <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>
         <el-table-column label="采购主题" prop="purName"></el-table-column>
         <el-table-column label="金额" prop="purTotalMoney"></el-table-column>
         <el-table-column label="采购日期" prop="purDate"></el-table-column>
@@ -98,7 +98,7 @@
           <el-input v-model="purFrom.purName"></el-input>
         </el-form-item>
         <el-form-item label="金额" prop="purTotalMoney">
-          <el-input v-model="purFrom.purTotalMoney"></el-input>
+          <el-input v-model="purFrom.purTotalMoney" disabled></el-input>
         </el-form-item>
         <el-form-item label="采购日期" prop="purDate">
           <el-input v-model="purFrom.purDate"></el-input>
@@ -120,7 +120,7 @@
         <el-form-item label="采购单编号" prop="purOrderId" class="from-inlines">
           <el-input v-model="purFrom.purOrderId" disabled></el-input>
         </el-form-item>
-        <el-form-item label="建单日期" prop="purDate" class="from-inlines">
+        <el-form-item label="采购日期" prop="purDate" class="from-inlines">
           <el-input v-model="purFrom.purDate" disabled></el-input>
         </el-form-item>
       </el-form>
@@ -227,18 +227,18 @@ export default {
     },
     addPur() {
       this.$refs.addFormRef.validate(async valid => {
-        if (!valid) return this.$message.error('请填写真缺的用户信息')
+        if (!valid) return this.$message.error('请填写正确的采购单信息')
         // //发送请求完成添加用户的操作
         // const { data: res } = await this.$http.post('users', this.addForm)
         // //判断如果添加失败，就做提示
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
         this.$http
-          .post('medicine', this.addForm)
+          .post('purchase', this.addForm)
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
-              this.$message.success('添加用户成功')
+              this.$message.success('添加采购单成功')
             }.bind(this)
           )
           .catch(function(error) {
@@ -282,11 +282,11 @@ export default {
         // )
         // if (res.meta.status !== 200) return this.$message.error('修改用户失败')
         this.$http
-          .put('medicine', res)
+          .put('purchase', res)
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
-              this.$message.success('修改信息成功')
+              this.$message.success(response.data.message)
             }.bind(this)
           )
           .catch(function(error) {
