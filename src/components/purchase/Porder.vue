@@ -7,11 +7,8 @@
     </el-breadcrumb>
     <el-card>
       <el-form :inline="true" :model="purFrom">
-        <el-form-item label="采购员工号:" prop="purOrderId" class="from-inline">
-          <el-input v-model="purFrom.purOrderId" clearable></el-input>
-        </el-form-item>
-        <el-form-item label="采购单编号:" prop="purOrderId" class="from-inlines">
-          <el-input v-model="purFrom.purOrderId" clearable></el-input>
+        <el-form-item label="采购员工号:" prop="userNumber" class="from-inline">
+          <el-input v-model="purFrom.userNumber" clearable></el-input>
         </el-form-item>
         <el-form-item label="建单日期:" prop="purDate" class="from-inlines">
           <el-input v-model="purFrom.purDate" clearable></el-input>
@@ -65,10 +62,13 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button type="primary" class="el-card">保存</el-button>
+      <el-button type="primary" class="el-card" @clik="savePur">保存</el-button>
       <el-button type="primary">提交审核</el-button>
     </el-card>
-    <el-dialog title="药品信息" :visible.sync="medicineDialogTableVisible">
+    <el-dialog title="收货地址" :visible.sync="medicineDialogTableVisible">
+      <el-input placeholder="请输入内容" v-model="queryInfo.name" clearable @clear="getMedicineList">
+        <el-button slot="append" icon="el-icon-search" @click="getMedicineList"></el-button>
+      </el-input>
       <el-table :data="medicineList" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
@@ -103,6 +103,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pageNum"
+        :page-sizes="[1, 2, 5, 10]"
+        :page-size="queryInfo.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-dialog>
   </div>
 </template>
@@ -158,38 +167,26 @@ export default {
     handleChange(value) {
       console.log(value)
     },
-    getMedicineList() {
-      this.$http
-        .get(
-          'medicines/' +
-          this.queryInfo.pageNum +
-          '/' +
-          this.queryInfo.pageSize +
-          '/' +
-          this.queryInfo.name
-        )
-        .then(
-          function(response) {
-            if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.medicineList = response.data.data.list
-            this.total = response.data.data.total
-          }.bind(this)
-        )
-        .catch(function(error) {
-          console.log(error)
-        })
-      console.log('获取了列表')
+    async getMedicineList() {
+      const { data: res } = await this.$http.get('medicines/' +
+        this.queryInfo.pageNum +
+        '/' +
+        this.queryInfo.pageSize +
+        '/' +
+        this.queryInfo.name)
+      this.medicineList = res.data.list
+      this.total = res.data.total
     },
     medicineDialog() {
       this.medicineDialogTableVisible = true
     },
     handleSizeChange(newSize) {
       this.queryInfo.pageSize = newSize
-      this.getList()
+      this.getMedicineList()
     },
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage
-      this.getList()
+      this.getMedicineList()
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -224,6 +221,10 @@ export default {
         }
       })
       this.purFrom.purDtlList.splice(index, 1)
+    },
+    async savePur() {
+      const { data: res } = await this.$http.post('purchase', this.purFrom)
+      console.log(res.message)
     }
   }
 }
