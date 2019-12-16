@@ -44,7 +44,9 @@ import {
   Select,
   Option,
   OptionGroup,
-  Tag
+  Tag,
+  Tabs,
+  TabPane
 }
   from 'element-ui'
 
@@ -90,5 +92,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(OptionGroup)
 Vue.use(Tag)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
