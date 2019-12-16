@@ -69,6 +69,9 @@
       <el-button type="primary">提交审核</el-button>
     </el-card>
     <el-dialog title="收货地址" :visible.sync="medicineDialogTableVisible">
+      <el-input placeholder="请输入内容" v-model="queryInfo.name" clearable @clear="getMedicineList">
+        <el-button slot="append" icon="el-icon-search" @click="getMedicineList"></el-button>
+      </el-input>
       <el-table :data="medicineList" border stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
@@ -103,6 +106,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pageNum"
+        :page-sizes="[1, 2, 5, 10]"
+        :page-size="queryInfo.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-dialog>
   </div>
 </template>
@@ -165,11 +177,11 @@ export default {
     },
     handleSizeChange(newSize) {
       this.queryInfo.pageSize = newSize
-      this.getList()
+      this.getMedicineList()
     },
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage
-      this.getList()
+      this.getMedicineList()
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
