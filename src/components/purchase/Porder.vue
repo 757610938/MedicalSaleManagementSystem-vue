@@ -28,7 +28,15 @@
           <el-input v-model="purFrom.purTotalMoney" clearable></el-input>
         </el-form-item>
       </el-form>
-      <el-button type="text" class="from-inlines" @click="getMedicineList">添加药品</el-button>
+      <el-form :inline="true" :model="purFrom">
+        <el-form-item label="采购单状态:" prop="purStatus" class="from-inlines">
+          <el-input v-model="purFrom.purStatus"></el-input>
+        </el-form-item>
+        <el-form-item label="采购单备注:" prop="purRemark" class="from-inlines">
+          <el-input v-model="purFrom.purRemark"></el-input>
+        </el-form-item>
+      </el-form>
+      <el-button type="text" class="from-inlines" @click="medicineDialog">添加药品</el-button>
       <el-table :data="purFrom.purDtlList" border stripe :row-key="purFrom.purDtlList.medicineId">
         <el-table-column label="药品编号" prop="medicineId" width="300px"></el-table-column>
         <el-table-column label="药品名称" prop="medicineName"></el-table-column>
@@ -57,6 +65,8 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-button type="primary" class="el-card">保存</el-button>
+      <el-button type="primary">提交审核</el-button>
     </el-card>
     <el-dialog title="收货地址" :visible.sync="medicineDialogTableVisible">
       <el-table :data="medicineList" border stripe @selection-change="handleSelectionChange">
@@ -118,7 +128,9 @@ export default {
       medicineDialogTableVisible: false
     }
   },
-  created() {},
+  created() {
+    this.getMedicineList()
+  },
   methods: {
     dataFormat: function(row, column) {
       var t = new Date(row.date)
@@ -147,6 +159,8 @@ export default {
     },
     getMedicineList() {
       console.log('获取了列表')
+    },
+    medicineDialog() {
       this.medicineDialogTableVisible = true
     },
     handleSizeChange(newSize) {
@@ -162,8 +176,26 @@ export default {
       console.log(this.multipleSelection)
     },
     addpurDtList(row) {
-      console.log('o :', row)
+      const index = this.purFrom.purDtlList.findIndex(item => {
+        if (item.medicineId === '') {
+          return false
+        } else {
+          if (item.medicineId === row.medicineId) {
+            return true
+          }
+        }
+      })
+      if (index !== -1) {
+        return this.$message({
+          message: '不能添加已有的药品',
+          type: 'error'
+        })
+      }
       this.purFrom.purDtlList.push(row)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
     },
     removeById(id) {
       const index = this.purFrom.purDtlList.findIndex(item => {
