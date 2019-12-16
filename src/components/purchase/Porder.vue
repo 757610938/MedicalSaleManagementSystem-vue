@@ -1,12 +1,193 @@
 <template>
-  <div></div>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>采购管理</el-breadcrumb-item>
+      <el-breadcrumb-item>采购单管理</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-card>
+      <el-form :inline="true" :model="purFrom">
+        <el-form-item label="采购员工号:" prop="purOrderId" class="from-inline">
+          <el-input v-model="purFrom.purOrderId" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="采购单编号:" prop="purOrderId" class="from-inlines">
+          <el-input v-model="purFrom.purOrderId" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="建单日期:" prop="purDate" class="from-inlines">
+          <el-input v-model="purFrom.purDate" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <el-form :inline="true" :model="purFrom">
+        <el-form-item label="采购单名称:" prop="purName" class="from-inline">
+          <el-input v-model="purFrom.purName" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="供应商编号:" prop="supplierId" class="from-inlines">
+          <el-input v-model="purFrom.supplierId" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="总金额:" prop="purTotalMoney" class="from-inlines" label-width="70px">
+          <el-input v-model="purFrom.purTotalMoney" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <el-button type="text" class="from-inlines" @click="getMedicineList">添加药品</el-button>
+      <el-table :data="purFrom.purDtlList" border stripe :row-key="purFrom.purDtlList.medicineId">
+        <el-table-column label="药品编号" prop="medicineId" width="300px"></el-table-column>
+        <el-table-column label="药品名称" prop="medicineName"></el-table-column>
+        <el-table-column label="采购单价" prop="purDtlPrcie"></el-table-column>
+        <el-table-column label="采购数量">
+          <template slot-scope="scope">
+            <el-input-number
+              v-model="scope.row.purDtlAmount"
+              controls-position="right"
+              @change="handleChange"
+              :min="1"
+            >{{ scope.row }}</el-input-number>
+          </template>
+        </el-table-column>
+        <el-table-column label="采购项备注" prop="purDtlRemark" width="500px"></el-table-column>
+        <el-table-column label="操作" width="80px" fixed="right">
+          <template slot-scope="scope">
+            <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
+              <el-button
+                type="primary"
+                icon="el-icon-delete"
+                size="mini"
+                @click="removeById(scope.row.medicineId)"
+              ></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+    <el-dialog title="收货地址" :visible.sync="medicineDialogTableVisible">
+      <el-table :data="medicineList" border stripe @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="index" fixed label="序号" width="55"></el-table-column>
+        <el-table-column label="编号" prop="medicineId" width="150"></el-table-column>
+        <el-table-column label="批准文号" prop="medicineApprovalNumber" width="300"></el-table-column>
+        <el-table-column label="药品名" prop="medicineName" width="200"></el-table-column>
+        <el-table-column label="药品英文名称" prop="medicineEnglishName" width="200"></el-table-column>
+        <el-table-column label="剂型种类" prop="medicineDosageformCategory" width="150"></el-table-column>
+        <el-table-column label="生产单位" prop="medicineManufacturer" width="250"></el-table-column>
+        <el-table-column label="生产单位地址" width="500" prop="medicineManufacturingAddress"></el-table-column>
+        <el-table-column label="规格" width="150" prop="medicineSpecification"></el-table-column>
+        <el-table-column label="药品种类" prop="medicineCategory" width="150"></el-table-column>
+        <el-table-column label="批准日期" prop="medicineApprovaldate" width="200"></el-table-column>
+        <el-table-column label="原批准文号" width="300" prop="medicineOriginalApprovalNumber"></el-table-column>
+        <el-table-column label="国产药/进口药" prop="medicineCountry" width="150"></el-table-column>
+        <el-table-column label="进货价" prop="medicinePurchasePrice" width="150"></el-table-column>
+        <el-table-column label="零售价" prop="medicineRetailPrice" width="150"></el-table-column>
+        <el-table-column label="批发价" prop="medicineWholesalePrice" width="150"></el-table-column>
+        <el-table-column label="药品供应商名" prop="supplierName" width="200"></el-table-column>
+        <el-table-column label="药品库存量" prop="stochAmount" width="150"></el-table-column>
+        <el-table-column label="药品存放仓库" prop="whseName" width="200"></el-table-column>
+        <el-table-column label="操作" width="70px" fixed="right">
+          <template slot-scope="scope">
+            <el-tooltip effect="dark" content="添加" placement="top" :enterable="false">
+              <el-button
+                type="primary"
+                icon="el-icon-thumb"
+                size="mini"
+                @click="addpurDtList(scope.row)"
+              ></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 export default {
-
+  data() {
+    return {
+      queryInfo: {
+        name: '',
+        pageNum: 1,
+        pageSzie: 10
+      },
+      purFrom: {
+        purDtlList: []
+      },
+      medicineList: [
+        { medicineId: 1, medicineName: 'aaa' },
+        { medicineId: 2, medicineName: 'bbb' },
+        { medicineId: 3, medicineName: 'ccc' },
+        { medicineId: 4, medicineName: 'ddd' }
+      ],
+      medicineDialogTableVisible: false
+    }
+  },
+  created() {},
+  methods: {
+    dataFormat: function(row, column) {
+      var t = new Date(row.date)
+      var year = t.getFullYear()
+      var month = t.getMonth() + 1
+      var day = t.getDate()
+      var hour = t.getHours()
+      var min = t.getMinutes()
+      var sec = t.getSeconds()
+      var newTime =
+        year +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day) +
+        ' ' +
+        (hour < 10 ? '0' + hour : hour) +
+        ':' +
+        (min < 10 ? '0' + min : min) +
+        ':' +
+        (sec < 10 ? '0' + sec : sec)
+      return newTime
+    },
+    handleChange(value) {
+      console.log(value)
+    },
+    getMedicineList() {
+      console.log('获取了列表')
+      this.medicineDialogTableVisible = true
+    },
+    handleSizeChange(newSize) {
+      this.queryInfo.pageSize = newSize
+      this.getList()
+    },
+    handleCurrentChange(newPage) {
+      this.queryInfo.pageNum = newPage
+      this.getList()
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+      console.log(this.multipleSelection)
+    },
+    addpurDtList(row) {
+      console.log('o :', row)
+      this.purFrom.purDtlList.push(row)
+    },
+    removeById(id) {
+      const index = this.purFrom.purDtlList.findIndex(item => {
+        if (item.medicineId === id) {
+          return true
+        }
+      })
+      this.purFrom.purDtlList.splice(index, 1)
+    }
+  }
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.el-card {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 20px;
+}
+
+.from-inline {
+  margin-left: 20px;
+}
+
+.from-inlines {
+  margin-left: 30px;
+}
 </style>

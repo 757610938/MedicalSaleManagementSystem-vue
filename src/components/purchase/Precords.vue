@@ -34,7 +34,7 @@
                 type="primary"
                 icon="el-icon-more-outline"
                 size="mini"
-                @click="detailsDialog(scope.row.purOrderId)"
+                @click="showDrawer (scope.row.purOrderId)"
               ></el-button>
             </el-tooltip>
             <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
@@ -112,6 +112,51 @@
         <el-button type="primary" @click="Info">确 定</el-button>
       </span>
     </el-dialog>
+    <el-drawer title="采购单详情" :visible.sync="detailsDrawer" :with-header="false" size="50%">
+      <el-form :inline="true" :model="purFrom">
+        <el-form-item label="采购员工号" prop="purOrderId" class="from-inline">
+          <el-input v-model="purFrom.purOrderId" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="采购单编号" prop="purOrderId" class="from-inlines">
+          <el-input v-model="purFrom.purOrderId" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="建单日期" prop="purDate" class="from-inlines">
+          <el-input v-model="purFrom.purDate" disabled></el-input>
+        </el-form-item>
+      </el-form>
+      <el-form :inline="true" :model="purFrom">
+        <el-form-item label="采购单名称" prop="purName" class="from-inline">
+          <el-input v-model="purFrom.purName" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="供应商编号" prop="supplierId" class="from-inlines">
+          <el-input v-model="purFrom.supplierId" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="总金额" prop="purTotalMoney" class="from-inlines" label-width="70px">
+          <el-input v-model="purFrom.purTotalMoney" disabled></el-input>
+        </el-form-item>
+      </el-form>
+      <el-form :inline="true" :model="purFrom">
+        <el-form-item label="采购单状态" prop="purStatus" class="from-inline">
+          <el-input v-model="purFrom.purStatus" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="采购单备注" prop="purRemark" class="from-inlines" >
+          <el-input v-model="purFrom.purRemark" disabled></el-input>
+        </el-form-item>
+      </el-form>
+       <el-table :data="purFrom.putDtlList" border stripe @selection-change="handleSelectionChange">
+        <el-table-column label="采购订单项编号" prop="purDtlOrderId" width="150px"></el-table-column>
+        <el-table-column label="药品编号" prop="medicineId" width="150px"></el-table-column>
+        <el-table-column label="药品名称" prop="medicineName"></el-table-column>
+        <el-table-column label="采购单价" prop="purDtlPrcie"></el-table-column>
+        <el-table-column label="采购数量" prop="purDtlAmount"></el-table-column>
+        <el-table-column label="状态" prop="purDtlStatus">
+          <template slot-scope="scope">
+            <el-tag>{{ scope.row.purStatus }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="采购项备注" prop="purDtlRemark" width="400px"></el-table-column>
+      </el-table>
+    </el-drawer>
   </div>
 </template>
 
@@ -150,7 +195,8 @@ export default {
       purDialogVisible: false,
       purFrom: {},
       purFromRules: {},
-      multipleSelection: []
+      multipleSelection: [],
+      detailsDrawer: false
     }
   },
   created() {
@@ -208,11 +254,11 @@ export default {
       //     return this.$message.error('获取用户信息失败')
       //   this.stockForm = res.data
       this.$http
-        .get('medicine/' + id)
+        .get('purchase/' + id)
         .then(
           function(response) {
             if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.purFrom = response.data.data.medicineVO
+            this.purFrom = response.data.data.purchaseVO
             console.log(id)
           }.bind(this)
         )
@@ -289,8 +335,20 @@ export default {
       this.multipleSelection = val
       console.log(this.multipleSelection)
     },
-    detailsDialog(id) {
-      console.log(id)
+    async showDrawer (id) {
+      const { data: res } = await this.$http.get('purchase/' + id)
+      if (res.status !== '200') {
+        return this.$message({
+          message: res.message,
+          type: 'error'
+        })
+      }
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
+      this.purFrom = res.data.purchaseVO
+      this.detailsDrawer = true
     }
   }
 }
@@ -300,5 +358,11 @@ export default {
 .el-card {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
   margin-top: 20px;
+}
+.from-inline {
+  margin-left: 20px;
+}
+.from-inlines {
+  margin-left: 30px;
 }
 </style>
