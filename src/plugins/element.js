@@ -47,7 +47,8 @@ import {
   Tag,
   Tabs,
   TabPane,
-  InputNumber
+  InputNumber,
+  Radio
 }
   from 'element-ui'
 
@@ -96,5 +97,6 @@ Vue.use(Tag)
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(InputNumber)
+Vue.use(Radio)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
