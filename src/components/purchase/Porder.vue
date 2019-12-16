@@ -24,8 +24,8 @@
         <el-form-item label="供应商编号:" prop="supplierId" class="from-inlines">
           <el-input v-model="purFrom.supplierId" clearable></el-input>
         </el-form-item>
-        <el-form-item label="总金额:" prop="purTotalMoney" class="from-inlines" label-width="70px">
-          <el-input v-model="purFrom.purTotalMoney" clearable disabled></el-input>
+        <el-form-item label="总金额:" class="from-inlines" label-width="70px">
+          <el-input v-model="totalPrice" clearable disabled></el-input>
         </el-form-item>
       </el-form>
       <el-button type="text" class="from-inlines" @click="medicineDialog">添加药品</el-button>
@@ -34,27 +34,26 @@
         <el-table-column label="药品名称" prop="medicineName" width="200px"></el-table-column>
         <el-table-column label="采购单价" width="200px">
           <template slot-scope="scope">
-            <el-input
+            <el-input-number
               v-model="scope.row.purDtlPrice"
-              controls-position="right"
+              :controls="medicineDialogTableVisible"
               @change="handleChange"
-              :min="1"
-            ></el-input>
+            ></el-input-number>
           </template>
         </el-table-column>
         <el-table-column label="采购数量" width="200px">
           <template slot-scope="scope">
-          <el-input-number
-            v-model="scope.row.purDtlAmount"
-            controls-position="right"
-            @change="handleChange"
-            :min="1"
-          ></el-input-number>
-        </template>
+            <el-input-number
+              v-model="scope.row.purDtlAmount"
+              controls-position="right"
+              @change="handleChange"
+              :min="1"
+            ></el-input-number>
+          </template>
         </el-table-column>
         <el-table-column label="采购项备注" width="500px">
           <template slot-scope="scope">
-            <el-input type="textarea"  v-model="scope.row.purDtlRemark" @change="handleChange" ></el-input>
+            <el-input type="textarea" v-model="scope.row.purDtlRemark" @change="handleChange"></el-input>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="80px" fixed="right">
@@ -143,7 +142,7 @@ export default {
         { medicineId: 4, medicineName: 'ddd' }
       ],
       medicineDialogTableVisible: false,
-      total: ''
+      total: 0
     }
   },
   created() {
@@ -176,12 +175,14 @@ export default {
       console.log(value)
     },
     async getMedicineList() {
-      const { data: res } = await this.$http.get('medicines/' +
-        this.queryInfo.pageNum +
-        '/' +
-        this.queryInfo.pageSize +
-        '/' +
-        this.queryInfo.name)
+      const { data: res } = await this.$http.get(
+        'medicines/' +
+          this.queryInfo.pageNum +
+          '/' +
+          this.queryInfo.pageSize +
+          '/' +
+          this.queryInfo.name
+      )
       this.medicineList = res.data.list
       this.total = res.data.total
     },
@@ -235,8 +236,20 @@ export default {
       console.log(res.message)
     },
     async submitPur() {
-      const { data: res } = await this.$http.post('purchase/submitPur', this.purFrom)
+      const { data: res } = await this.$http.post(
+        'purchase/submitPur',
+        this.purFrom
+      )
       console.log(res.message)
+    }
+  },
+  computed: {
+    'totalPrice': function() {
+      var res = 0
+      this.purFrom.purDtlList.forEach(function(val, index) {
+        res += val.purDtlPrice * val.purDtlAmount
+      })
+      return parseFloat(res)
     }
   }
 }
