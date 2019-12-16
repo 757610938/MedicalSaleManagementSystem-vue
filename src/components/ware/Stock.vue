@@ -230,7 +230,7 @@ export default {
       //   }
       //   this.userlist = res.data.users
       //   this.total = res.data.total
-      const { data: res } = await this.$http.get('warehouseManage/warehouse/' + this.queryInfo.pagenum + '/' + this.queryInfo.pagesize)
+      const { data: res } = await this.$http.get('warehouseManage/warehouse/' + this.queryInfo.pagenum + '/' + this.queryInfo.pagesize + '/' + this.queryInfo.query)
       if (res.status !== '200') return this.$message.error(res.message)
       this.$message.success(res.message)
       this.userlist = res.data.list
@@ -257,7 +257,7 @@ export default {
         // //判断如果添加失败，就做提示
         // if (res.meta.status !== 200) return this.$message.error('添加用户失败')
         // //添加成功的提示
-        const { data: res } = await this.$http.post('warehouseManage/warehouse', this.addForm)
+        const { data: res } = await this.$http.post('warehouseManage/warehouse/', this.addForm)
         if (res.status !== '200') return this.$message.error(res.message)
         this.$message.success(res.message)
         this.addDialogVisible = false
@@ -265,9 +265,9 @@ export default {
       })
     },
     async showStockDialog(id) {
-      const { data: res } = await this.$http.get('warehouseManage/warehouse' + id)
-      if (res.status !== 200) return this.$message.error(res.message)
-      this.stockForm = res.data.list
+      const { data: res } = await this.$http.get('warehouseManage/warehouse/' + id)
+      if (res.status !== '200') return this.$message.error(res.message)
+      this.stockFrom = res.data.warehouseVO
       this.stockDialogVisible = true
     },
     stockDialogClose() {
@@ -279,10 +279,10 @@ export default {
       this.$refs.stockFromRef.validate(async valid => {
         if (!valid) return this.$message.error('请填写完整用户信息')
         const { data: res } = await this.$http.put(
-          'warehouseManage/warehouse', this.stockFrom
+          'warehouseManage/warehouse/', this.stockFrom
         )
-        if (res.meta.status !== 200) return this.$message.error('修改用户失败')
-        this.$message.success('修改信息成功')
+        if (res.status !== '200') return this.$message.error(res.message)
+        this.$message.success(res.message)
         this.stockDialogVisible = false
         this.getUserList()
       })
