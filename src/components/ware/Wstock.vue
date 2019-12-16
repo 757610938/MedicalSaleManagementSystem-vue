@@ -36,7 +36,7 @@
           </template>
         </el-col>
         <el-col :span="8">
-          <el-input placeholder="请输入内容" v-model="queryInfo.name" clearable @clear="getList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.keyword" clearable @clear="getList">
             <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
           </el-input>
         </el-col>
@@ -51,7 +51,7 @@
         <el-table-column label="药品种类" prop="medicineCategory" ></el-table-column>
         <el-table-column label="药品仓库ID" prop="whseId" ></el-table-column>
         <el-table-column label="药品仓库名字" prop="whseName" ></el-table-column>
-        <el-table-column label="药品库存量" prop="stochAmount" ></el-table-column>
+        <el-table-column label="药品库存量" prop="stockAmount" ></el-table-column>
         <!-- <el-table-column label="创建时间" prop="time" width="150">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
@@ -103,14 +103,14 @@
         <el-form-item label="药品仓库名字" prop="whseName">
           <el-input v-model="addForm.whseName"></el-input>
         </el-form-item>
-        <el-form-item label="药品库存量" prop="stochAmount">
+        <el-form-item label="药品库存量" prop="stockAmount">
           <el-input v-model="addForm.medicineManufacturer"></el-input>
         </el-form-item>
         <!--        <el-form-item label="药品供应商名" prop="supplierName">-->
         <!--          <el-input v-model="addForm.supplierName" disabled></el-input>-->
         <!--        </el-form-item>-->
-        <!--        <el-form-item label="药品库存量" prop="stochAmount">-->
-        <!--          <el-input v-model="addForm.stochAmount" disabled></el-input>-->
+        <!--        <el-form-item label="药品库存量" prop="stockAmount">-->
+        <!--          <el-input v-model="addForm.stockAmount" disabled></el-input>-->
         <!--        </el-form-item>-->
         <!--        <el-form-item label="药品存放仓库" prop="whseName">-->
         <!--          <el-input v-model="addForm.whseName" disabled></el-input>-->
@@ -145,8 +145,8 @@
         <el-form-item label="药品仓库名字" prop="whseName">
           <el-input v-model="wStockFrom.whseName"></el-input>
         </el-form-item>
-        <el-form-item label="药品库存量" prop="stochAmount">
-          <el-input v-model="wStockFrom.stochAmount"></el-input>
+        <el-form-item label="药品库存量" prop="stockAmount">
+          <el-input v-model="wStockFrom.stockAmount"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -169,9 +169,11 @@ export default {
     // }
     return {
       queryInfo: {
-        name: '',
-        pageNum: 1,
-        pageSize: 10
+        keyword: '',
+        searchType: 'SEARCH_ALL',
+        warehouseBelong: 'string',
+        offset: 1,
+        limit: 5
       },
       list: [{ supplierName: '122154' }],
       total: 0,
@@ -181,7 +183,7 @@ export default {
         medicineCategory: '',
         whseId: '',
         whseName: '',
-        stochAmount: ''
+        stockAmount: ''
       },
       addFormRules: {},
       wStockDialogVisible: false,
@@ -193,16 +195,16 @@ export default {
           label: '查询条件',
           options: [
             {
-              value: 'searchByMedicineId',
-              label: '根据id'
+              value: 'SEARCH_BY_MEDICINE_ID',
+              label: '根据药品ID'
             },
             {
-              value: 'searchByMedicineName',
-              label: '根据名字'
+              value: 'SEARCH_BY_MEDICINE_NAME',
+              label: '根据药品名称'
             },
             {
-              value: 'searchByMedicineCategory',
-              label: '根据种类'
+              value: 'SEARCH_BY_MEDICINE_CATEGORY',
+              label: '根据药品种类'
             },
             {
               value: 'searchAll',
@@ -243,34 +245,17 @@ export default {
   },
   methods: {
     async getList() {
-      // const res = await this.$http.get('medicines/' + '1/' + '10/')
-      // console.log(res)
-      this.$http
-        .get(
-          'medicines/' +
-            this.queryInfo.pageNum +
-            '/' +
-            this.queryInfo.pageSize +
-            '/' +
-            this.queryInfo.name
-        )
-        .then(
-          function(response) {
-            if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.list = response.data.data.list
-            this.total = response.data.data.total
-          }.bind(this)
-        )
-        .catch(function(error) {
-          console.log(error)
-        })
+      const { data: res } = await this.$http.get('/stockManage/stock', { params: this.queryInfo })
+      this.list = res.rows
+      this.total = res.total
+      console.log(res)
     },
     handleSizeChange(newSize) {
-      this.queryInfo.pageSize = newSize
+      this.queryInfo.limit = newSize
       this.getList()
     },
     handleCurrentChange(newPage) {
-      this.queryInfo.pageNum = newPage
+      this.queryInfo.offset = newPage
       this.getList()
     },
     addDialogClose() {
@@ -364,24 +349,8 @@ export default {
       if (confirmResult !== 'confirm') {
         return this.$message.info('已取消删除')
       }
-      // //发送请求根据id完成删除操作
-      // const { data: res } = await this.$http.delete('users/' + id)
-      // //判断如果删除失败，就做提示
-      // if (res.meta.status !== 200) return this.$message.error('删除用户失败')
-      // this.getUserList()
-      this.$http
-        .delete('medicine/' + id)
-        .then(
-          function(response) {
-            if (response.data.status !== '200') return this.$message.error(response.data.message)
-            this.$message.success(response.data.message)
-            this.getList()
-            console.log(id)
-          }.bind(this)
-        )
-        .catch(function(error) {
-          console.log(error)
-        })
+      const { data: res } = await this.$http.delete('stockManage/stock/' + id)
+      this.$message.success(res.message)
       console.log(confirmResult)
     },
     handleSelectionChange(val) {
@@ -389,6 +358,7 @@ export default {
       console.log(this.multipleSelection)
     },
     searchChange() {
+      this.queryInfo.searchType = this.value
       console.log(this.value)
     },
     stockChange() {
