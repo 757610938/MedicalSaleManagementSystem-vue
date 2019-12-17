@@ -207,7 +207,7 @@ export default {
               label: '根据药品种类'
             },
             {
-              value: 'searchAll',
+              value: 'SEARCH_ALL',
               label: '不限制'
             }
           ]
