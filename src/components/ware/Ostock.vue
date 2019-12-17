@@ -117,9 +117,9 @@ export default {
   },
   methods: {
     async getList() {
-      const { data: res } = await this.$http.get('outstockManage/outstock' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize)
-      this.outStockFrom = res.data.List
-      this.total = res.total
+      const { data: res } = await this.$http.get('outstockManage/outstock/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize)
+      this.outStockFrom = res.data.list
+      this.total = res.data.total
     },
     toggleSelection(rows) {
       if (rows) {
@@ -146,7 +146,7 @@ export default {
     },
     async stockValidChanged(row) {
       const { data: res } = await this.$http.put(
-        'outstockManage/outstock' + row.outstockApplyId + '/' + row.Valid
+        'outstockManage/outstock/' + row.outstockApplyId + '/' + row.Valid
       )
       if (res.status !== '200') {
         row.Valid = !row.Valid

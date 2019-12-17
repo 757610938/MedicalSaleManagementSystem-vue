@@ -143,7 +143,7 @@
           <el-input v-model="purFrom.purRemark" disabled></el-input>
         </el-form-item>
       </el-form>
-       <el-table :data="purFrom.putDtlList" border stripe @selection-change="handleSelectionChange">
+       <el-table :data="purFrom.purDtlList" border stripe @selection-change="handleSelectionChange">
         <el-table-column label="采购订单项编号" prop="purDtlOrderId" width="150px"></el-table-column>
         <el-table-column label="药品编号" prop="medicineId" width="150px"></el-table-column>
         <el-table-column label="药品名称" prop="medicineName"></el-table-column>

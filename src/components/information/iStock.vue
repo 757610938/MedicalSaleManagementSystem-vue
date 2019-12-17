@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="出库药品：">
-              <el-input v-model="form.medcimeId" placeholder="请输入药品ID"></el-input>
+              <el-input v-model="form.medicineId" placeholder="请输入药品ID"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -35,7 +35,7 @@
           </el-col>
         </el-row>
         <el-form-item label="出库备注：">
-          <el-input type="textarea" v-model="form.outstockRemark" placeholder="备注"></el-input>
+          <el-input type="textarea" v-model="form.outstockApplyRemark" placeholder="备注"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -52,15 +52,17 @@ export default {
     return {
       form: {
         userNumber: '',
-        medcimeId: '',
+        medicineId: '',
         outstockAmount: '',
-        outstockRemark: '',
+        outstockApplyRemark: '',
         outstockApplyCategory: ''
       }
     }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
+      const { data: res } = await this.$http.post('/outstockManage/outstock', this.form)
+      this.$message.success(res.message)
       console.log('submit!')
     },
     cls() {
