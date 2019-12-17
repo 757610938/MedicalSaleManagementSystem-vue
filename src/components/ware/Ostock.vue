@@ -20,20 +20,20 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="userNumber" label="员工号"></el-table-column>
             <el-table-column prop="outstockApplyCategory" label="出库类型"></el-table-column>
-            <el-table-column prop="medcimeId" label="出库药品"></el-table-column>
+            <el-table-column prop="medicineId" label="出库药品"></el-table-column>
             <el-table-column prop="outstockAmount" label="出库数量"></el-table-column>
             <el-table-column prop="outstockRemark" label="出库备注"></el-table-column>
             <el-table-column label="出库状态">
               <template slot-scope="scope" active-color="#727cf5" inactive-color="#ff4949">
                 <el-switch
-                  v-model="scope.row.Valid"
+                  v-model="scope.row.valid"
                   :active-value="1"
                   :inactive-value="0"
                   @change="stockValidChanged(scope.row)"
                 ></el-switch>
               </template>
             </el-table-column>
-            <el-table-column prop="outstockTime" label="出库申请时间"></el-table-column>
+            <el-table-column prop="outstockTime" label="出库申请时间" :formatter="dataFormat"></el-table-column>
           </el-table>
           <el-pagination
             @size-change="handleSizeChange"
@@ -117,7 +117,12 @@ export default {
   },
   methods: {
     async getList() {
-      const { data: res } = await this.$http.get('outstockManage/outstock/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize)
+      const { data: res } = await this.$http.get(
+        'outstockManage/outstock/' +
+          this.queryInfo.pageNum +
+          '/' +
+          this.queryInfo.pageSize
+      )
       this.outStockFrom = res.data.list
       this.total = res.data.total
     },
@@ -146,13 +151,36 @@ export default {
     },
     async stockValidChanged(row) {
       const { data: res } = await this.$http.put(
-        'outstockManage/outstock/' + row.outstockApplyId + '/' + row.Valid
+        'outstockManage/outstock/',
+        row
       )
       if (res.status !== '200') {
-        row.Valid = !row.Valid
+        row.valid = !row.valid
         return this.$message.error(res.message)
       }
       this.$message.success(res.message)
+    },
+    dataFormat: function(row, column) {
+      var t = new Date(row.outstockTime)
+      var year = t.getFullYear()
+      var month = t.getMonth() + 1
+      var day = t.getDate()
+      var hour = t.getHours()
+      var min = t.getMinutes()
+      var sec = t.getSeconds()
+      var newTime =
+        year +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day) +
+        ' ' +
+        (hour < 10 ? '0' + hour : hour) +
+        ':' +
+        (min < 10 ? '0' + min : min) +
+        ':' +
+        (sec < 10 ? '0' + sec : sec)
+      return newTime
     }
   }
 }

@@ -113,16 +113,16 @@
               <span>采购管理</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="porder" @click="saveNavState('porder')">
+            <el-menu-item index="pmyorder" @click="saveNavState('pmyorder')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>采购单管理</span>
+                <span>我的采购单</span>
               </template>
             </el-menu-item>
             <el-menu-item index="precords" @click="saveNavState('precords')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>采购记录</span>
+                <span>采购单管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="psupplier" @click="saveNavState('psupplier')">
@@ -306,6 +306,15 @@ export default {
     },
     errorHandler() {
       return true
+    }
+  },
+  watch: {
+    activePath: {
+      handler(newVal, oldVal) {
+        console.log(newVal)
+        console.log(oldVal)
+        this.activePath = newVal
+      }
     }
   }
 }

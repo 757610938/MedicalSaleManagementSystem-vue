@@ -19,6 +19,7 @@ import Precords from '../components/purchase/Precords.vue'
 import Psupplier from '../components/purchase/Psupplier.vue'
 import Medicine from '../components/medicine/medicine.vue'
 import IStock from '../components/information/iStock.vue'
+import Pmyorder from '../components/purchase/Pmyorder.vue'
 
 Vue.use(VueRouter)
 
@@ -53,7 +54,8 @@ const routes = [
       { path: '/precords', component: Precords },
       { path: '/psupplier', component: Psupplier },
       { path: '/medicine', component: Medicine },
-      { path: '/istock', component: IStock }
+      { path: '/istock', component: IStock },
+      { path: '/pmyorder', component: Pmyorder }
     ]
   }
 ]

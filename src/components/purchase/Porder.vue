@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>采购管理</el-breadcrumb-item>
-      <el-breadcrumb-item>采购单管理</el-breadcrumb-item>
+      <el-breadcrumb-item>添加采购单</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-form :inline="true" :model="purFrom">
@@ -11,7 +11,7 @@
           <el-input v-model="purFrom.userNumber" clearable></el-input>
         </el-form-item>
         <el-form-item label="建单日期:" prop="purDate" class="from-inlines">
-          <el-input v-model="purFrom.purDate" clearable></el-input>
+          <el-date-picker v-model="purFrom.purDate" clearable></el-date-picker>
         </el-form-item>
         <el-form-item label="采购单备注:" prop="purRemark" class="from-inlines">
           <el-input v-model="purFrom.purRemark"></el-input>
@@ -94,7 +94,7 @@
         <el-table-column label="生产单位地址" width="500" prop="medicineManufacturingAddress"></el-table-column>
         <el-table-column label="规格" width="150" prop="medicineSpecification"></el-table-column>
         <el-table-column label="药品种类" prop="medicineCategory" width="150"></el-table-column>
-        <el-table-column label="批准日期" prop="medicineApprovaldate" width="200"></el-table-column>
+        <el-table-column label="批准日期" prop="medicineApprovaldate" width="200" :formatter="dataFormat"></el-table-column>
         <el-table-column label="原批准文号" width="300" prop="medicineOriginalApprovalNumber"></el-table-column>
         <el-table-column label="国产药/进口药" prop="medicineCountry" width="150"></el-table-column>
         <el-table-column label="操作" width="70px" fixed="right">
@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     dataFormat: function(row, column) {
-      var t = new Date(row.date)
+      var t = new Date(row.medicineApprovaldate)
       var year = t.getFullYear()
       var month = t.getMonth() + 1
       var day = t.getDate()

@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>采购管理</el-breadcrumb-item>
-      <el-breadcrumb-item>采购单管理</el-breadcrumb-item>
+      <el-breadcrumb-item>我的采购单</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-row :gutter="20">
@@ -13,10 +13,9 @@
           </el-input>
         </el-col>
         <el-col :span="4" style="position:absolute; left:85%">
+          <el-button type="primary" @click="gotoPorder">制定采购单</el-button>
         </el-col>
       </el-row>
-      <el-tabs v-model="queryInfo.activeName" @tab-click="handleClick">
-        <el-tab-pane label="审核中" name="审核中">
           <el-table :data="list" border stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>
@@ -67,44 +66,6 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
           ></el-pagination>
-        </el-tab-pane>
-        <el-tab-pane label="已审核" name="已审核">
-          <el-table :data="list" border stripe @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>
-            <el-table-column label="采购主题" prop="purName"></el-table-column>
-            <el-table-column label="金额" prop="purTotalMoney"></el-table-column>
-            <el-table-column label="采购日期" prop="purDate" :formatter="dataFormat"></el-table-column>
-            <el-table-column label="状态" prop="purStatus">
-              <template slot-scope="scope">
-                <el-tag>{{ scope.row.purStatus }}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="负责人" prop="userNumber"></el-table-column>
-            <el-table-column label="操作" width="70px" fixed="right">
-              <template slot-scope="scope">
-                <el-tooltip effect="dark" content="详情" placement="top" :enterable="false">
-                  <el-button
-                    type="primary"
-                    icon="el-icon-more-outline"
-                    size="mini"
-                    @click="showDrawer (scope.row.purOrderId)"
-                  ></el-button>
-                </el-tooltip>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="queryInfo.pageNum"
-            :page-sizes="[1, 2, 5, 10]"
-            :page-size="queryInfo.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          ></el-pagination>
-        </el-tab-pane>
-      </el-tabs>
     </el-card>
     <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="110px">
@@ -213,7 +174,6 @@ export default {
     return {
       queryInfo: {
         name: '',
-        activeName: '审核中',
         pageNum: 1,
         pageSize: 10
       },
@@ -238,7 +198,7 @@ export default {
       purFromRules: {},
       multipleSelection: [],
       detailsDrawer: false,
-      activeName: '审核中'
+      activeName: '未审核'
     }
   },
   created() {
@@ -248,7 +208,7 @@ export default {
     async getList() {
       // const res = await this.$http.get('medicines/' + '1/' + '10/')
       // console.log(res)
-      const { data: res } = await this.$http.get('purchases/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize + '/' + this.queryInfo.activeName + '/' + this.queryInfo.name)
+      const { data: res } = await this.$http.get('purchases/' + this.queryInfo.pageNum + '/' + this.queryInfo.pageSize + '/' + this.queryInfo.name)
       if (res.status !== '200') return this.$message.error(res.message)
       this.list = res.data.list
       this.total = res.data.total
@@ -415,12 +375,11 @@ export default {
       return newTime
     },
     handleClick() {
-      this.getList()
+      console.log('this.activeName :', this.activeName)
     },
     gotoPorder() {
       this.$router.push('/porder')
       window.sessionStorage.setItem('activePath', 'porder')
-      location.reload()
     }
   }
 }

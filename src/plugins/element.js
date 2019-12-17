@@ -48,7 +48,10 @@ import {
   Tabs,
   TabPane,
   InputNumber,
-  Radio
+  Radio,
+  TimePicker,
+  TimeSelect,
+  DatePicker
 }
   from 'element-ui'
 
@@ -98,5 +101,8 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(InputNumber)
 Vue.use(Radio)
+Vue.use(TimePicker)
+Vue.use(TimeSelect)
+Vue.use(DatePicker)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

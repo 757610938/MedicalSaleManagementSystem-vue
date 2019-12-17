@@ -27,7 +27,7 @@
         <el-table-column label="生产单位地址" width="500" prop="medicineManufacturingAddress"></el-table-column>
         <el-table-column label="规格" width="150" prop="medicineSpecification"></el-table-column>
         <el-table-column label="药品种类" prop="medicineCategory" width="150"></el-table-column>
-        <el-table-column label="批准日期" prop="medicineApprovaldate" width="200"></el-table-column>
+        <el-table-column label="批准日期" prop="medicineApprovaldate" width="200" :formatter="dataFormat"></el-table-column>
         <el-table-column label="原批准文号" width="300" prop="medicineOriginalApprovalNumber"></el-table-column>
         <el-table-column label="国产药/进口药" prop="medicineCountry" width="150"></el-table-column>
         <el-table-column label="进货价" prop="medicinePurchasePrice" width="150"></el-table-column>
@@ -100,7 +100,7 @@
           <el-input v-model="addForm.medicineCategory"></el-input>
         </el-form-item>
         <el-form-item label="批准日期" prop="medicineApprovaldate">
-          <el-input v-model="addForm.medicineApprovaldate"></el-input>
+          <el-date-picker v-model="addForm.medicineApprovaldate"></el-date-picker>
         </el-form-item>
         <el-form-item label="原批准文号" prop="medicineOriginalApprovalNumber">
           <el-input v-model="addForm.medicineOriginalApprovalNumber"></el-input>
@@ -388,6 +388,28 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
       console.log(this.multipleSelection)
+    },
+    dataFormat: function(row, column) {
+      var t = new Date(row.medicineApprovaldate)
+      var year = t.getFullYear()
+      var month = t.getMonth() + 1
+      var day = t.getDate()
+      var hour = t.getHours()
+      var min = t.getMinutes()
+      var sec = t.getSeconds()
+      var newTime =
+        year +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day) +
+        ' ' +
+        (hour < 10 ? '0' + hour : hour) +
+        ':' +
+        (min < 10 ? '0' + min : min) +
+        ':' +
+        (sec < 10 ? '0' + sec : sec)
+      return newTime
     }
   }
 }

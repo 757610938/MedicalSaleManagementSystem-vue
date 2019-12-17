@@ -34,13 +34,7 @@
         </el-table-column>
         <el-table-column label="上一次登录Ip" prop="lastLoginIp" width="500"></el-table-column>
         <el-table-column label="上一次登录时间" width="150" prop="lastLoginTime"></el-table-column>
-        <el-table-column label="创建时间" prop="genTime" width="150"></el-table-column>
-        <!-- <el-table-column label="创建时间" prop="time" width="150">
-          <template slot-scope="scope">
-            <i class="el-icon-time"></i>
-            <span>{{ scope.row.time }}</span>
-          </template>
-        </el-table-column>-->
+        <el-table-column label="创建时间" prop="genTime" width="150" :formatter="dataFormat"></el-table-column>
         <el-table-column label="操作" width="130px" fixed="right">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
@@ -341,6 +335,28 @@ export default {
         return this.$message.error(res.message)
       }
       this.$message.success(res.message)
+    },
+    dataFormat: function(row, column) {
+      var t = new Date(row.genTime)
+      var year = t.getFullYear()
+      var month = t.getMonth() + 1
+      var day = t.getDate()
+      var hour = t.getHours()
+      var min = t.getMinutes()
+      var sec = t.getSeconds()
+      var newTime =
+        year +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day) +
+        ' ' +
+        (hour < 10 ? '0' + hour : hour) +
+        ':' +
+        (min < 10 ? '0' + min : min) +
+        ':' +
+        (sec < 10 ? '0' + sec : sec)
+      return newTime
     }
   }
 }

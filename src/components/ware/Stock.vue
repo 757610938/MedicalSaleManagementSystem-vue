@@ -24,7 +24,7 @@
         <el-table-column label="电话" prop="whseTel"></el-table-column>
         <el-table-column label="最大容量" prop="whseCapacity"></el-table-column>
         <el-table-column label="仓库管理员" prop="userNumber"></el-table-column>
-        <el-table-column label="创建时间" prop="genTime"></el-table-column>
+        <el-table-column label="创建时间" prop="genTime" :formatter="dataFormat"></el-table-column>
         <el-table-column label="操作" width="130px" fixed="right">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
@@ -309,6 +309,28 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
       console.log(this.multipleSelection)
+    },
+    dataFormat: function(row, column) {
+      var t = new Date(row.genTime)
+      var year = t.getFullYear()
+      var month = t.getMonth() + 1
+      var day = t.getDate()
+      var hour = t.getHours()
+      var min = t.getMinutes()
+      var sec = t.getSeconds()
+      var newTime =
+        year +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day) +
+        ' ' +
+        (hour < 10 ? '0' + hour : hour) +
+        ':' +
+        (min < 10 ? '0' + min : min) +
+        ':' +
+        (sec < 10 ? '0' + sec : sec)
+      return newTime
     }
   }
 }
