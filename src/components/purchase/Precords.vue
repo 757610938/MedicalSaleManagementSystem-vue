@@ -16,7 +16,7 @@
         </el-col>
       </el-row>
       <el-tabs v-model="queryInfo.activeName" @tab-click="handleClick">
-        <el-tab-pane label="未审核" name="未审核">
+        <el-tab-pane label="审核中" name="未审核">
           <el-table :data="list" border stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>

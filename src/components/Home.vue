@@ -55,10 +55,10 @@
               <span>销售管理</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="istock" @click="saveNavState('istock')">
+            <el-menu-item index="sorder" @click="saveNavState('sorder')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>退货入库申请</span>
+                <span>出库申请</span>
               </template>
             </el-menu-item>
             <el-menu-item index="scustomer" @click="saveNavState('scustomer')">
