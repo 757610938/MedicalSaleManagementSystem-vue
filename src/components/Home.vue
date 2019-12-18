@@ -70,7 +70,7 @@
             <el-menu-item index="spush" @click="saveNavState('spush')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>输出管理</span>
+                <span>销售单管理</span>
               </template>
             </el-menu-item>
           </el-submenu>

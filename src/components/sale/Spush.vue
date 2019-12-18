@@ -1,5 +1,5 @@
 <template>
     <div>
-        <h3>输出管理组件</h3>
+        <h3>销售单管理</h3>
     </div>
 </template>
