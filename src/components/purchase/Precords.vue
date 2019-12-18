@@ -29,7 +29,7 @@
               </template>
             </el-table-column>
             <el-table-column label="负责人" prop="userNumber"></el-table-column>
-            <el-table-column label="操作" width="180px" fixed="right">
+            <el-table-column label="操作" width="130px" fixed="right">
               <template slot-scope="scope">
                 <el-tooltip effect="dark" content="详情" placement="top" :enterable="false">
                   <el-button
@@ -37,14 +37,6 @@
                     icon="el-icon-more-outline"
                     size="mini"
                     @click="showDrawer (scope.row.purOrderId)"
-                  ></el-button>
-                </el-tooltip>
-                <el-tooltip effect="dark" content="修改" placement="top" :enterable="false">
-                  <el-button
-                    type="primary"
-                    icon="el-icon-edit"
-                    size="mini"
-                    @click="showDialog(scope.row.purOrderId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
@@ -68,7 +60,7 @@
             :total="total"
           ></el-pagination>
         </el-tab-pane>
-        <el-tab-pane label="已审核" name="已审核">
+        <el-tab-pane label="已审核" name="通过">
           <el-table :data="list" border stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>
@@ -176,12 +168,16 @@
         </el-form-item>
       </el-form>
       <el-form :inline="true" :model="purFrom">
-        <el-form-item label="采购单状态" prop="purStatus" class="from-inline">
-          <el-input v-model="purFrom.purStatus" disabled></el-input>
-        </el-form-item>
         <el-form-item label="采购单备注" prop="purRemark" class="from-inlines" >
           <el-input v-model="purFrom.purRemark" disabled></el-input>
         </el-form-item>
+        <el-form-item label="采购单状态" prop="purStatus" class="from-inline">
+          <el-select v-model="purFrom.purStatus">
+            <el-option label="审核通过" value="审核通过"></el-option>
+            <el-option label="审核不通过" value="审核不通过"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-button type="primary" class="from-inlines" @click="changePurStatus" v-loading.fullscreen.lock="fullscreenLoading">确认更改</el-button>
       </el-form>
        <el-table :data="purFrom.purDtlList" border stripe @selection-change="handleSelectionChange">
         <el-table-column label="采购订单项编号" prop="purDtlOrderId" width="150px"></el-table-column>
@@ -196,6 +192,9 @@
         </el-table-column>
         <el-table-column label="采购项备注" prop="purDtlRemark" width="400px"></el-table-column>
       </el-table>
+      <el-row>
+        <el-button></el-button>
+      </el-row>
     </el-drawer>
   </div>
 </template>
@@ -238,7 +237,8 @@ export default {
       purFromRules: {},
       multipleSelection: [],
       detailsDrawer: false,
-      activeName: '审核中'
+      activeName: '审核中',
+      fullscreenLoading: false
     }
   },
   created() {
@@ -421,6 +421,18 @@ export default {
       this.$router.push('/porder')
       window.sessionStorage.setItem('activePath', 'porder')
       location.reload()
+    },
+    changePurStatus() {
+      this.fullscreenLoading = true
+      setTimeout(() => {
+        this.fullscreenLoading = false
+        this.getList()
+        this.$message({
+          message: 'success',
+          type: '成功'
+        })
+        this.detailsDrawer = false
+      }, 500)
     }
   }
 }
