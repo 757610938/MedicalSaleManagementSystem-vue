@@ -23,7 +23,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="6" style="padding: 20px; margin-left: 0px">
+      <el-col :span="9" style="padding: 20px; margin-left: 0px">
         <div class="grid-content bg-purple-dark">
           <el-card class="grid-content card">
             <!-- <div class="img" fit="cover" style="display:inline-block">
@@ -47,7 +47,7 @@
           </el-card>
         </div>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="15">
         <div class="grid-contents bg-purple" style="margin-top:20px">
           <el-card class="grid-contents">
             <el-divider content-position="left">
@@ -138,7 +138,7 @@ export default {
       time: new Date(),
       drawer: false,
       userlist: {
-        username: '吴梓键',
+        username: '林贤钦',
         position: '系统管理员',
         Motto: '早起的虫儿被鸟吃！！'
       }

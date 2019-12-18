@@ -22,7 +22,11 @@
           <el-input v-model="purFrom.purName" clearable></el-input>
         </el-form-item>
         <el-form-item label="供应商编号:" prop="supplierId" class="from-inlines">
-          <el-input v-model="purFrom.supplierId" clearable></el-input>
+          <el-autocomplete
+            v-model="purFrom.supplierId"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请选择供应商编号"
+          ></el-autocomplete>
         </el-form-item>
         <el-form-item label="总金额:" class="from-inlines" label-width="70px">
           <el-input v-model="totalPrice" clearable disabled></el-input>
@@ -142,7 +146,9 @@ export default {
         { medicineId: 4, medicineName: 'ddd' }
       ],
       medicineDialogTableVisible: false,
-      total: 0
+      total: 0,
+      restaurants: [],
+      timeout: null
     }
   },
   created() {
@@ -233,15 +239,53 @@ export default {
     },
     async savePur() {
       const { data: res } = await this.$http.post('purchase', this.purFrom)
-      console.log(res.message)
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
+      this.purFrom = ''
     },
     async submitPur() {
       const { data: res } = await this.$http.post(
         'purchase/submitPur',
         this.purFrom
       )
-      console.log(res.message)
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
+      this.purFrom = ''
+    },
+    loadAll() {
+      // const { data: res } = await this.$http.get('suppliers')
+      // console.log(res)
+      return [
+        { value: '200000' },
+        { value: '200004' },
+        { value: '4171213' }
+      ]
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants
+
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        cb(results)
+      }, 3000 * Math.random())
+    },
+    createStateFilter(queryString) {
+      return state => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        )
+      }
     }
+  },
+  mounted() {
+    this.restaurants = this.loadAll()
   },
   computed: {
     'totalPrice': function() {

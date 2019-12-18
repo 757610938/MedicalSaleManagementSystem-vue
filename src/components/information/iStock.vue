@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>采购管理</el-breadcrumb-item>
-      <el-breadcrumb-item>添加采购单</el-breadcrumb-item>
+      <el-breadcrumb-item>仓库管理</el-breadcrumb-item>
+      <el-breadcrumb-item>出库管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-form :inline="true" :model="outStockFrom">
@@ -48,7 +48,12 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button type="primary" @click="submitPur">提交审核</el-button>
+      <el-col :span="2">
+      <el-button type="primary" @click="submitPur" v-loading.fullscreen.lock="fullscreenLoading">确认生成</el-button>
+      </el-col>
+      <el-col :span="2">
+      <el-button type="primary" @click="gobcak">返回</el-button>
+      </el-col>
     </el-card>
     <el-dialog title="添加出库药品" :visible.sync="medicineDialogTableVisible">
       <el-row :gutter="20">
@@ -191,7 +196,8 @@ export default {
         }
       ],
       value: '',
-      stockValue: ''
+      stockValue: '',
+      fullscreenLoading: false
     }
   },
   created() {
@@ -283,7 +289,21 @@ export default {
         'outstockManage/outstockRecord',
         this.outStockFrom
       )
-      console.log(res.message)
+      this.fullscreenLoading = true
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
+      setTimeout(() => {
+        this.fullscreenLoading = false
+        this.$router.push('/ostock')
+        window.sessionStorage.setItem('activePath', 'ostock')
+        location.reload()
+      }, 500)
+    },
+    gobcak() {
+      this.$router.push('/ostock')
+      window.sessionStorage.setItem('activePath', 'ostock')
     },
     searchChange() {
       this.queryInfo.searchType = this.value
@@ -317,5 +337,8 @@ export default {
 
 .from-inlines {
   margin-left: 30px;
+}
+.btn {
+  padding: 20px;
 }
 </style>

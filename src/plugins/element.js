@@ -51,7 +51,8 @@ import {
   Radio,
   TimePicker,
   TimeSelect,
-  DatePicker
+  DatePicker,
+  Autocomplete
 }
   from 'element-ui'
 
@@ -104,5 +105,6 @@ Vue.use(Radio)
 Vue.use(TimePicker)
 Vue.use(TimeSelect)
 Vue.use(DatePicker)
+Vue.use(Autocomplete)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

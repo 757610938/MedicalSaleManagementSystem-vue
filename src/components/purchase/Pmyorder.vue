@@ -115,7 +115,7 @@
     </el-dialog>
     <el-drawer title="采购单详情" :visible.sync="detailsDrawer" :with-header="false" size="50%">
       <el-form :inline="true" :model="purFrom">
-        <el-form-item label="采购员工号" prop="purOrderId" class="from-inline">
+        <el-form-item label="采购员工号" prop="purId" class="from-inline">
           <el-input v-model="purFrom.purOrderId" disabled></el-input>
         </el-form-item>
         <el-form-item label="采购单编号" prop="purOrderId" class="from-inlines">
@@ -148,7 +148,7 @@
         <el-table-column label="采购订单项编号" prop="purDtlOrderId" width="150px"></el-table-column>
         <el-table-column label="药品编号" prop="medicineId" width="150px"></el-table-column>
         <el-table-column label="药品名称" prop="medicineName"></el-table-column>
-        <el-table-column label="采购单价" prop="purDtlPrcie"></el-table-column>
+        <el-table-column label="采购单价" prop="purDtlPrice"></el-table-column>
         <el-table-column label="采购数量" prop="purDtlAmount"></el-table-column>
         <el-table-column label="状态" prop="purDtlStatus">
           <template slot-scope="scope">

@@ -15,7 +15,11 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="出库药品：">
-              <el-input v-model="form.medicineId" placeholder="请输入药品ID"></el-input>
+              <el-autocomplete
+                v-model="form.medicineId"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="选择药品ID"
+              ></el-autocomplete>
             </el-form-item>
           </el-col>
         </el-row>
@@ -50,13 +54,17 @@
 export default {
   data() {
     return {
+      medicineList: [],
       form: {
         userNumber: '',
         medicineId: '',
         outstockAmount: '',
         outstockApplyRemark: '',
         outstockApplyCategory: ''
-      }
+      },
+      restaurants: [],
+      state: '',
+      timeout: null
     }
   },
   methods: {
@@ -64,10 +72,65 @@ export default {
       const { data: res } = await this.$http.post('/outstockManage/outstock', this.form)
       this.$message.success(res.message)
       console.log('submit!')
+      this.form = ''
     },
     cls() {
       this.$refs.fromRef.resetFields()
+    },
+    loadAll() {
+      // const { data: res } = await this.$http.get('suppliers')
+      // console.log(res)
+      return [
+        { value: '1000001' },
+        { value: '1000002' },
+        { value: '1000003' },
+        { value: '1000004' },
+        { value: '1000005' },
+        { value: '1000006' },
+        { value: '1000007' },
+        { value: '1000008' },
+        { value: '1000009' },
+        { value: '1000010' },
+        { value: '1000011' },
+        { value: '1000012' },
+        { value: '1000013' },
+        { value: '1000014' },
+        { value: '1000015' },
+        { value: '1000016' },
+        { value: '1000017' },
+        { value: '1000018' },
+        { value: '1000019' },
+        { value: '1000020' },
+        { value: '1000021' },
+        { value: '1000022' },
+        { value: '1000023' },
+        { value: '1000024' }
+      ]
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants
+
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        cb(results)
+      }, 3000 * Math.random())
+    },
+    createStateFilter(queryString) {
+      return state => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        )
+      }
+    },
+    handleSelect(item) {
+      console.log(item)
     }
+  },
+  mounted() {
+    this.restaurants = this.loadAll()
   }
 }
 </script>
