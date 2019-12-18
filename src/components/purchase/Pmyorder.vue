@@ -93,7 +93,7 @@
     <el-dialog title="修改信息" :visible.sync="purDialogVisible" width="45%" @close="supplierDialogClose">
       <el-form :model="purFrom" :rules="purFromRules" ref="purFromRef" label-width="110px">
         <el-form-item label="采购编号" prop="purOrderId">
-          <el-input v-model="purFrom.purOrderId"></el-input>
+          <el-input v-model="purFrom.purOrderId" disabled=""></el-input>
         </el-form-item>
         <el-form-item label="采购主题" prop="purName">
           <el-input v-model="purFrom.purName"></el-input>

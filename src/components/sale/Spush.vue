@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>采购管理</el-breadcrumb-item>
-      <el-breadcrumb-item>采购单管理</el-breadcrumb-item>
+      <el-breadcrumb-item>销售管理</el-breadcrumb-item>
+      <el-breadcrumb-item>销售单管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <el-row :gutter="20">
@@ -16,18 +16,17 @@
         </el-col>
       </el-row>
       <el-tabs v-model="queryInfo.activeName" @tab-click="handleClick">
-        <el-tab-pane label="审核中" name="未审核">
+        <el-tab-pane label="配送中" name="未审核">
           <el-table :data="list" border stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>
-            <el-table-column label="采购主题" prop="purName"></el-table-column>
+            <el-table-column label="编号" prop="purOrderId" width="305px"></el-table-column>
             <el-table-column label="金额" prop="purTotalMoney"></el-table-column>
-            <el-table-column label="采购日期" prop="purDate" :formatter="dataFormat"></el-table-column>
-            <el-table-column label="状态" prop="purStatus">
-              <template slot-scope="scope">
-                <el-tag>{{ scope.row.purStatus }}</el-tag>
-              </template>
-            </el-table-column>
+            <el-table-column label="日期" prop="purDate" :formatter="dataFormat"></el-table-column>
+<!--            <el-table-column label="状态" prop="purStatus">-->
+<!--              <template slot-scope="scope">-->
+<!--                <el-tag>{{ scope.row.purStatus }}</el-tag>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
             <el-table-column label="负责人" prop="userNumber"></el-table-column>
             <el-table-column label="操作" width="130px" fixed="right">
               <template slot-scope="scope">
@@ -60,18 +59,17 @@
             :total="total"
           ></el-pagination>
         </el-tab-pane>
-        <el-tab-pane label="已审核" name="通过">
+        <el-tab-pane label="已收货" name="通过">
           <el-table :data="list" border stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="采购编号" prop="purOrderId" width="305px"></el-table-column>
-            <el-table-column label="采购主题" prop="purName"></el-table-column>
+            <el-table-column label="编号" prop="purOrderId" width="305px"></el-table-column>
             <el-table-column label="金额" prop="purTotalMoney"></el-table-column>
-            <el-table-column label="采购日期" prop="purDate" :formatter="dataFormat"></el-table-column>
-            <el-table-column label="状态" prop="purStatus">
-              <template slot-scope="scope">
-                <el-tag>{{ scope.row.purStatus }}</el-tag>
-              </template>
-            </el-table-column>
+            <el-table-column label="日期" prop="purDate" :formatter="dataFormat"></el-table-column>
+<!--            <el-table-column label="状态" prop="purStatus">-->
+<!--              <template slot-scope="scope">-->
+<!--                <el-tag>{{ scope.row.purStatus }}</el-tag>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
             <el-table-column label="负责人" prop="userNumber"></el-table-column>
             <el-table-column label="操作" width="70px" fixed="right">
               <template slot-scope="scope">
@@ -100,16 +98,16 @@
     </el-card>
     <el-dialog title="添加信息" :visible.sync="addDialogVisible" width="45%" @close="addDialogClose">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="110px">
-        <el-form-item label="采购编号" prop="purOrderId">
+        <el-form-item label="编号" prop="purOrderId">
           <el-input v-model="addForm.purOrderId"></el-input>
         </el-form-item>
-        <el-form-item label="采购主题" prop="purName">
-          <el-input v-model="addForm.purName"></el-input>
-        </el-form-item>
+<!--        <el-form-item label="主题" prop="purName">-->
+<!--          <el-input v-model="addForm.purName"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="金额" prop="purTotalMoney">
           <el-input v-model="addForm.purTotalMoney"></el-input>
         </el-form-item>
-        <el-form-item label="采购日期" prop="purDate">
+        <el-form-item label="日期" prop="purDate">
           <el-input v-model="addForm.purDate"></el-input>
         </el-form-item>
         <el-form-item label="负责人" prop="userNumber">
@@ -123,16 +121,16 @@
     </el-dialog>
     <el-dialog title="修改信息" :visible.sync="purDialogVisible" width="45%" @close="supplierDialogClose">
       <el-form :model="purFrom" :rules="purFromRules" ref="purFromRef" label-width="110px">
-        <el-form-item label="采购编号" prop="purOrderId">
+        <el-form-item label="编号" prop="purOrderId">
           <el-input v-model="purFrom.purOrderId"></el-input>
         </el-form-item>
-        <el-form-item label="采购主题" prop="purName">
-          <el-input v-model="purFrom.purName"></el-input>
-        </el-form-item>
-        <el-form-item label="金额" prop="purTotalMoney">
+<!--        <el-form-item label="销售主题" prop="purName">-->
+<!--          <el-input v-model="purFrom.purName"></el-input>-->
+<!--        </el-form-item>-->
+        <el-form-item label="销售金额" prop="purTotalMoney">
           <el-input v-model="purFrom.purTotalMoney" disabled></el-input>
         </el-form-item>
-        <el-form-item label="采购日期" prop="purDate">
+        <el-form-item label="日期" prop="purDate">
           <el-input v-model="purFrom.purDate"></el-input>
         </el-form-item>
         <el-form-item label="负责人" prop="userNumber">
@@ -144,23 +142,23 @@
         <el-button type="primary" @click="Info">确 定</el-button>
       </span>
     </el-dialog>
-    <el-drawer title="采购单详情" :visible.sync="detailsDrawer" :with-header="false" size="50%">
+    <el-drawer title="销售单详情" :visible.sync="detailsDrawer" :with-header="false" size="50%">
       <el-form :inline="true" :model="purFrom">
-        <el-form-item label="采购员工号" prop="purOrderId" class="from-inline">
+        <el-form-item label="销售员工号" prop="purOrderId" class="from-inline">
           <el-input v-model="purFrom.purOrderId" disabled></el-input>
         </el-form-item>
-        <el-form-item label="采购单编号" prop="purOrderId" class="from-inlines">
+        <el-form-item label="销售单编号" prop="purOrderId" class="from-inlines">
           <el-input v-model="purFrom.purOrderId" disabled></el-input>
         </el-form-item>
-        <el-form-item label="采购日期" prop="purDate" class="from-inlines">
+        <el-form-item label="销售日期" prop="purDate" class="from-inlines">
           <el-input v-model="purFrom.purDate" disabled></el-input>
         </el-form-item>
       </el-form>
       <el-form :inline="true" :model="purFrom">
-        <el-form-item label="采购单名称" prop="purName" class="from-inline">
+        <el-form-item label="销售单名称" prop="purName" class="from-inline">
           <el-input v-model="purFrom.purName" disabled></el-input>
         </el-form-item>
-        <el-form-item label="供应商编号" prop="supplierId" class="from-inlines">
+        <el-form-item label="客户编号" prop="supplierId" class="from-inlines">
           <el-input v-model="purFrom.supplierId" disabled></el-input>
         </el-form-item>
         <el-form-item label="总金额" prop="purTotalMoney" class="from-inlines" label-width="70px">
@@ -168,10 +166,10 @@
         </el-form-item>
       </el-form>
       <el-form :inline="true" :model="purFrom">
-        <el-form-item label="采购单备注" prop="purRemark" class="from-inlines" >
+        <el-form-item label="销售单备注" prop="purRemark" class="from-inlines" >
           <el-input v-model="purFrom.purRemark" disabled></el-input>
         </el-form-item>
-        <el-form-item label="采购单状态" prop="purStatus" class="from-inline">
+        <el-form-item label="销售单状态" prop="purStatus" class="from-inline">
           <el-select v-model="purFrom.purStatus">
             <el-option label="审核通过" value="审核通过"></el-option>
             <el-option label="审核不通过" value="审核不通过"></el-option>
@@ -180,17 +178,17 @@
         <el-button type="primary" class="from-inlines" @click="changePurStatus" v-loading.fullscreen.lock="fullscreenLoading">确认更改</el-button>
       </el-form>
        <el-table :data="purFrom.purDtlList" border stripe @selection-change="handleSelectionChange">
-        <el-table-column label="采购订单项编号" prop="purDtlOrderId" width="150px"></el-table-column>
+        <el-table-column label="销售订单项编号" prop="purDtlOrderId" width="150px"></el-table-column>
         <el-table-column label="药品编号" prop="medicineId" width="150px"></el-table-column>
         <el-table-column label="药品名称" prop="medicineName"></el-table-column>
-        <el-table-column label="采购单价" prop="purDtlPrcie"></el-table-column>
-        <el-table-column label="采购数量" prop="purDtlAmount"></el-table-column>
+        <el-table-column label="单价" prop="purDtlPrcie"></el-table-column>
+        <el-table-column label="数量" prop="purDtlAmount"></el-table-column>
         <el-table-column label="状态" prop="purDtlStatus">
           <template slot-scope="scope">
             <el-tag>{{ scope.row.purStatus }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="采购项备注" prop="purDtlRemark" width="400px"></el-table-column>
+        <el-table-column label="销售项备注" prop="purDtlRemark" width="400px"></el-table-column>
       </el-table>
       <el-row>
         <el-button></el-button>
@@ -269,7 +267,7 @@ export default {
     },
     addPur() {
       this.$refs.addFormRef.validate(async valid => {
-        if (!valid) return this.$message.error('请填写正确的采购单信息')
+        if (!valid) return this.$message.error('请填写正确的销售单信息')
         // //发送请求完成添加用户的操作
         // const { data: res } = await this.$http.post('users', this.addForm)
         // //判断如果添加失败，就做提示
@@ -280,7 +278,7 @@ export default {
           .then(
             function(response) {
               if (response.data.status !== '200') return this.$message.error(response.data.message)
-              this.$message.success('添加采购单成功')
+              this.$message.success('添加销售单成功')
             }.bind(this)
           )
           .catch(function(error) {
